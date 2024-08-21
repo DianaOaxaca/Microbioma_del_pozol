@@ -73,5 +73,5 @@ conda deactivate
 ::: callout-important
 ## Discusión
 
-En equipos revisen los resultados generados por GTDB-tk y
+En equipos revisen los resultados generados por GTDB-tk y propongan un plan para mejorar la identificación taxonómica, qué harían para darle más soporte a estos resultados?
 :::
