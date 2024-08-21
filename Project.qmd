@@ -1,0 +1,53 @@
+---
+title: "Preparemos todo para el proyecto"
+---
+
+::: callout-tip
+## Reglas del juego
+
+-   **En este tutorial haremos el ejemplo corriendo la muestra de 48 hrs.**
+
+-   **Se formaran 6 equipos (2 de los tiempos 0, 9 y 24 hrs).**
+
+-   **Los equipos discutirán y presentarán sus resultados.**
+:::
+
+## Espacio de trabajo
+
+1.  Entra a tu cuenta en el servidor y sitúate en tu `$HOME`
+
+2.  Obten los datos y la estructura de tu directorio del proyecto clonando el siguiente repositorio:
+
+``` bash
+git clone https://github.com/DianaOaxaca/taller_metagenomica_pozol.git
+```
+
+3.  Entra al directorio y descomprime el ensamble y el archivo de profundidad de la muestra de 48 hrs:
+
+``` bash
+cd taller_metagenomica_pozol
+gunzip results/02.ensambles/48hrs.fasta.gz
+gunzip results/03.profundidad/48hrs.mgh_depth.txt.gz
+```
+
+4.  Entra al directorio del proyecto
+
+``` bash
+cd taller_metagenomica_pozol
+```
+
+<p align="justify">
+
+<FONT COLOR="darkblue">La presente práctica sólo es una representación del flujo de trabajo para el análisis metagenómico, sin embargo, no sustituye los manuales de cada programa y el flujo puede variar dependiendo del tipo de datos y pregunta de investigación, de hecho para fines del taller, con frecuencia se utilizan las lineas de comando más simples para eficientar tiempo y recursos, tómalo en cuenta.</FONT>
+
+</p>
+
+Cada programa tiene una ayuda y un manual de usuario, es **importante** revisarlo y conocer cada parámetro que se ejecute. En terminal se puede consultar el manual con el comando `man` y también se puede consultar la ayuda con `-h` o `--help`, por ejemplo `fastqc -h`.
+
+::: callout-important
+🧠 Para tenerlo presente
+
+En bioinformática cualquier línea de comandos generará un resultado, de ahí a que esos resultados sean correctos puede haber una gran diferencia.
+
+En cada paso detente a revisar la información de cada programa, lee el manual, visita foros de ayuda y selecciona los argumentos que se ajusten a las necesidades de tus datos.
+:::

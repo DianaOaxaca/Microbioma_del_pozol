@@ -1,0 +1,45 @@
+---
+title: "Metabolismo"
+---
+
+### PROKKA
+
+``` bash
+conda activate Prokka_Global
+```
+
+``` bash
+mkdir -p results/11.prokka
+```
+
+``` bash
+for FASTA in $(ls results/09.drep/dereplicated_genomes/); do  
+  LOCUSTAG=$(basename $FASTA .fasta);         
+  echo "Run prokka in: " $LOCUSTAG ; 
+  PROKKA='prokka --locustag '$LOCUSTAG' --prefix '$LOCUSTAG' --addgenes --addmrna  --cpus 4 --outdir results/11.prokka/'$LOCUSTAG' results/09.drep/dereplicated_genomes/'$FASTA'';         
+  echo $PROKKA; $PROKKA; 
+done
+```
+
+``` bash
+conda deactivate
+```
+
+### KOFAM
+
+``` bash
+mkdir -p results/12.kofam
+```
+
+``` bash
+exec_annotation results/11.prokka/15732_sub/15732_sub.faa -o test/15732_sub.txt --report-unannotated --tmp-dir test/temp15732_sub -p /home/alumno1/kofam/db/profiles/ -k /home/alumno1/kofam/db/ko_list 
+```
+
+``` bash
+for FAA in $(ls results/11.prokka/*/*.faa); do 
+  name=$(basename $FAA .faa); 
+  exec_annotation $FAA -o results/12.kofam/$name".txt" --report-unannotated --cpu 4 --tmp-dir results/12.kofam/"tmp"$name -p /home/alumno1/kofam/db/profiles/ -k /home/alumno1/kofam/db/ko_list; 
+done
+```
+
+### RBiMS

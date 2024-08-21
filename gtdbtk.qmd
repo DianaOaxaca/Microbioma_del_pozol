@@ -1,0 +1,19 @@
+---
+title: "Asignación taxonómica"
+---
+
+``` bash
+conda activate gtdbtk-2.1.1
+```
+
+``` bash
+mkdir -p results/10.gtdbtk
+```
+
+``` bash
+gtdbtk classify_wf --genome_dir results/09.drep/dereplicated_genomes/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta
+```
+
+``` bash
+conda deactivate
+```

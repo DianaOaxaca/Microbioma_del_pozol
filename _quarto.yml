@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: docs
+
+  preview:
+    port: 22222
+    browser: true
+    watch-inputs: true
+    navigate: true
+
+website:
+  title: "Microbioma del pozol"
+  navbar:
+    left:
+      - href: index.qmd
+        text: TallerMetagenomasSureste
+      - href: about.qmd
+        text: El pozol
+      - href: Project.qmd
+        text: 01.Espacio de trabajo
+      - href: Binning.qmd
+        text: 02.MAGs
+      - href: gtdbtk.qmd
+        text: 03.Taxonomía
+      - href: metabolic.qmd
+        text: 04.Metabolismo
+      - href: Amplicones16S.qmd
+        text: 05.Amplicones16S
+
+
+format:
+  html:
+    theme: flatly
+    css: styles.css
+    toc: true
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: false
+
+editor: visual
+
