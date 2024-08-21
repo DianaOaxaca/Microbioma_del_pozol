@@ -605,7 +605,7 @@ Otros programas para binning
 <h2 class="anchored" data-anchor-id="dereplicación">Dereplicación</h2>
 <section id="drep" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="drep">dRep</h3>
-<p>La desreplicación es el proceso de identificar conjuntos de genomas que son "iguales" en una lista de genomas y eliminar todos los genomas excepto el "mejor" de cada conjunto redundante. <a href="https://drep.readthedocs.io/en/latest/overview.html">dRep</a> es una herramienta útil para el proceso de desreplicación</p>
+<p>La desreplicación es el proceso de identificar conjuntos de genomas que son “iguales” en una lista de genomas y eliminar todos los genomas excepto el “mejor” de cada conjunto redundante. <a href="https://drep.readthedocs.io/en/latest/overview.html">dRep</a> es una herramienta útil para el proceso de desreplicación</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><a href="https://drep.readthedocs.io/en/latest/overview.html"><img src="Figures/dRep.png" class="img-fluid figure-img" width="423"></a></p>
@@ -618,14 +618,20 @@ Otros programas para binning
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/<span class="pp">*</span>.fasta .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> taller_metagenomica_pozol/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">dRep</span> dereplicate results/09.drep/ <span class="at">-d</span> <span class="at">-comp</span> 50 <span class="at">-con</span> 10 <span class="at">--SkipSecondary</span> <span class="at">-g</span> results/09.drep/bins/<span class="pp">*</span>.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Solo para probar el curso</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> update pandas</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install bioconda::mash</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install bioconda::mummer</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge gsl=2.7=he838d99_0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span>/miniconda3/envs/metagenomics/bin:<span class="va">$PATH</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="ex">dRep</span> dereplicate results/09.drep/ <span class="at">-d</span> <span class="at">-comp</span> 50 <span class="at">-con</span> 10 <span class="at">--SkipSecondary</span> <span class="at">-g</span> results/09.drep/bins/<span class="pp">*</span>.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><img src="Figures/09.dRepWinningGenomes.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption margin-caption">dRepWinningGenomes</figcaption>
 </figure>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>

@@ -19,18 +19,11 @@ title: "Preparemos todo para el proyecto"
 2.  Obten los datos y la estructura de tu directorio del proyecto clonando el siguiente repositorio:
 
 ``` bash
-git clone https://github.com/DianaOaxaca/taller_metagenomica_pozol.git
+#git clone https://github.com/DianaOaxaca/taller_metagenomica_pozol.git
+ln -s /home/alumno1/pozol_data/taller_metagenomica_pozol
 ```
 
-3.  Entra al directorio y descomprime el ensamble y el archivo de profundidad de la muestra de 48 hrs:
-
-``` bash
-cd taller_metagenomica_pozol
-gunzip results/02.ensambles/48hrs.fasta.gz
-gunzip results/03.profundidad/48hrs.mgh_depth.txt.gz
-```
-
-4.  Entra al directorio del proyecto
+3.  Entra al directorio del proyecto
 
 ``` bash
 cd taller_metagenomica_pozol

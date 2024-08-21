@@ -346,9 +346,9 @@ cd results/09.drep/bins/
 ```
 
 ``` bash
-for i in $(ls ../../08.dastool/48hrs_DASTool_bins/*.fa) ; do name=$(basename $i .fa); ln -s $i $name".fasta" ; done
+for i in $(ls ../../08.dastool/48hrs_DASTool_bins/*.fa) ; do name=$(basename $i .fa); cp $i $name".fasta" ; done
 
-ln -s ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/*.fasta .
+cp ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/*.fasta .
 ```
 
 ``` bash
