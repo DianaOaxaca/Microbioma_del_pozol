@@ -2,18 +2,76 @@
 title: "Asignación taxonómica"
 ---
 
+### GTDB-tk
+
+GTDB-Tk es una herramienta bioinformática que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporcionando una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
+
+Recordemos que ya tenemos un set de *bins* refinados y desreplicados. Ahora vamos a asignarles identidad taxonómica, para ello vamos a correr GTDB-tk
+
+::: callout-important
+## Activa el ambiente de gtdbtk
+
 ``` bash
 conda activate gtdbtk-2.1.1
 ```
+:::
+
+Crea el directorio de resultados para gtdbtk:
 
 ``` bash
 mkdir -p results/10.gtdbtk
 ```
 
+Ahora si, vamos a correrlo
+
 ``` bash
 gtdbtk classify_wf --genome_dir results/09.drep/dereplicated_genomes/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta
 ```
 
+Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.
+
+Análisis en R
+
+``` r
+
+
+library(tidyverse)
+
+GTDBK <- read.table("results/10.GTDBtk/gtdbtk.bac120.summary.tsv", 
+  sep = "\t", header = TRUE, na.strings = "", stringsAsFactors = FALSE) %>%
+  as_tibble()
+
+#El archivo contiene información sobre la clasificación taxonómica de los bins.
+#Continuamos limpiando y transformando los datos:
+
+pozol_gtdbtk <- GTDBK %>%
+  select(user_genome, classification) %>%
+  separate(classification, c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = ";") %>%
+  rename(Bin_name = user_genome) %>%
+  unite(Bin_name_2, c("Bin_name", "Phylum"), remove = FALSE) %>%
+  select(Bin_name, Domain, Phylum, Class, Order, Family, Genus, Species)
+
+#Guardamos los datos en un archivo de metadatos:
+write.table(pozol_gtdbtk, file = "results/10.GTDBTK/Metadatos.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+
+#Visualización de Datos Creamos un gráfico de barras interactivo que muestra la distribución taxonómica de los bins:
+
+GTDBtk <- pozol_gtdbtk %>%
+  count(Domain, Phylum) %>%
+  rename(Number_of_MAGs = n) %>%
+  ggplot(aes(x = Domain, y = Number_of_MAGs, fill = Phylum)) + 
+  geom_bar(stat = "identity", position = position_dodge()) +
+  theme_minimal()
+```
+
+No olvides desactivar el ambiente
+
 ``` bash
 conda deactivate
 ```
+
+::: callout-important
+## Discusión
+
+En equipos revisen los resultados generados por GTDB-tk y
+:::
