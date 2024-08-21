@@ -42,4 +42,8 @@ for FAA in $(ls results/11.prokka/*/*.faa); do
 done
 ```
 
+``` bash
+rm -r results/12.kofam/tmp*
+```
+
 ### RBiMS

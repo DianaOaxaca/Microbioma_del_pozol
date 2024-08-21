@@ -6,8 +6,8 @@ La metagenómica hace referencia a todo el ADN de los organismos que se encuentr
 
 Típicamente los metagenomas pueden estudiarse mediante dos aproximaciones:
 
-1.   La clasificación taxonómica de contigs o lecturas y la inferencia metabólica de los contigs.
-2.   La reconstrucción de genomasa a partir de metagenomas (MAGs), clasificación taxonómica y la inferencia metabólica de los MAGs.
+1.  La clasificación taxonómica de contigs o lecturas y la inferencia metabólica de los contigs.
+2.  La reconstrucción de genomasa a partir de metagenomas (MAGs), clasificación taxonómica y la inferencia metabólica de los MAGs.
 
 En este apartado nos enfocaremos en la segunda aproximación. Los MAGs se reconstruyen a partir de un ensamble metagenómico, los contigs de dicho ensamble se agrupan mediante la información de cobertura y frecuencia de tetranucleótidos. Esta agrupación puede generar errores, por lo que es indispensable evaluar la calidad de los MAGs mediante la completitud y redundancia de genes de copia única ([MerenLab y col.](https://anvio.org/vocabulary/))
 
@@ -67,7 +67,7 @@ Para correr metabat necesitamos activar el [ambiente conda](https://conda.io/pro
     ```
 :::
 
-![Metabat2. Kang et al., 2015. DOI:10.7717/peerj.1165](Figures/04.Metabat.png){alt="Metabat2. Kang et al., 2015. DOI:10.7717/peerj.1165" fig-align="center" width="372"}
+![Metabat2. Kang et al., 2015. DOI:10.7717/peerj.1165](Figures/04.Metabat.png){fig-align="center" width="372"}
 
 Ahora que ya tenemos el ambiente activado ejecutemos la siguiente linea:
 
@@ -76,17 +76,14 @@ metabat2 -i results/02.ensambles/48hrs.fasta -a results/03.profundidad/48hrs.mgh
 ```
 
 ::: {.callout-important collapse="true" title="Responde:"}
-1. ¿Cuántos bins se formaron?
+1.  ¿Cuántos bins se formaron?
 
 2\. ¿Qué parámetros cambiarías o agregarías?
 
 ::: {.callout-tip collapse="true" title="Ayuda"}
-
-1. `ls results/04.metabat/`
-2. `metabat2 –-help`
-
+1.  `ls results/04.metabat/`
+2.  `metabat2 –-help`
 :::
-
 :::
 
 Ya que corrimos Metabat2 vamos a ejecutar MaxBin2, pero primero necesitamos desactivar el ambiente:
@@ -133,18 +130,14 @@ run_MaxBin.pl -thread 4 -min_contig_length 1500 -contig results/02.ensambles/48h
 ```
 
 ::: {.callout-important collapse="true" title="Ejercicio:"}
-
 1\. ¿Cuántos bins se formaron?
 
 2\. ¿Qué porcentaje de completitud y contaminación tienen??
 
 ::: {.callout-tip collapse="true" title="Solución"}
-
-1. `ls results/05.maxbin/*.fasta | wc -l`
-2. `cat results/05.maxbin/48hrs_maxbin.summary | column -t`
-
+1.  `ls results/05.maxbin/*.fasta | wc -l`
+2.  `cat results/05.maxbin/48hrs_maxbin.summary | column -t`
 :::
-
 :::
 
 ::: callout-caution
@@ -182,17 +175,14 @@ vamb --fasta results/02.ensambles/48hrs.fasta --jgi results/03.profundidad/48hrs
 ```
 
 ::: {.callout-important collapse="true" title="Discute:"}
-
 Si quisieras recuperar los genomas de virus ¿Qué parámetro cambiarías?
 
 ::: {.callout-tip collapse="true" title="Tip"}
-
 Despliega la ayuda:
 
 ``` bash
 vamb -h
 ```
-
 :::
 :::
 
@@ -309,7 +299,7 @@ saveWidget(sankey_plot, file = "48hrs_sankey_plot.html")
 
 [DASTool](https://github.com/cmks/DAS_Tool) es una herramienta utilizada para mejorar la calidad de los *bins*. Evalúa la integridad, combina los resultados de diferentes *bineadores* y por consenso selecciona los mejores *bins* de cada herramienta. Una vez que DASTool ha seleccionado los mejores bins, realiza un proceso de refinamiento para optimizar los resultados.
 
-![DASTool](Figures/06.DASTool.png){alt="DASTool" fig-alt="Sieber et al. 2018. Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nat. Micro." fig-align="center" width="935"}
+![DASTool](Figures/06.DASTool.png){fig-alt="Sieber et al. 2018. Recovery of genomes from metagenomes via a dereplication, aggregation and scoring strategy. Nat. Micro." fig-align="center" width="935"}
 
 Vamos a correr DASTool ...
 
@@ -343,7 +333,7 @@ DAS_Tool -i results/08.dastool/48hrs_metabat.dastool.tsv,results/08.dastool/48hr
 
 ### dRep
 
-La desreplicación es el proceso de identificar conjuntos de genomas que son \"iguales\" en una lista de genomas y eliminar todos los genomas excepto el \"mejor\" de cada conjunto redundante. [dRep](https://drep.readthedocs.io/en/latest/overview.html) es una herramienta útil para el proceso de desreplicación
+La desreplicación es el proceso de identificar conjuntos de genomas que son "iguales" en una lista de genomas y eliminar todos los genomas excepto el "mejor" de cada conjunto redundante. [dRep](https://drep.readthedocs.io/en/latest/overview.html) es una herramienta útil para el proceso de desreplicación
 
 [![dRep](Figures/dRep.png){fig-align="center" width="423"}](https://drep.readthedocs.io/en/latest/overview.html)
 
@@ -365,7 +355,17 @@ ln -s ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/
 cd && cd taller_metagenomica_pozol/
 ```
 
+Solo para probar el curso
+
 ``` bash
+conda update pandas
+conda install bioconda::mash
+conda install bioconda::mummer
+conda install -c conda-forge gsl=2.7=he838d99_0
+```
+
+``` bash
+export PATH=/miniconda3/envs/metagenomics/bin:$PATH
 dRep dereplicate results/09.drep/ -d -comp 50 -con 10 --SkipSecondary -g results/09.drep/bins/*.fasta
 ```
 
