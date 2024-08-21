@@ -26,6 +26,8 @@ De acuerdo con el flujo de análisis (Figura 2), debemos partir de un ensamble y
 
 El proceso de mapeo es demandante en tiempo de ejecución y recursos. Así que nos dimos a la tarea de generar el archivo de profundidad para comenzar directamente con el *binning*.
 
+El mapeo lo corrimos con [bowtie2](https://bowtie-bio.sourceforge.net/bowtie2/manual.shtml#introduction) que es una herramienta confiable y muy utilizada para alinear lecturas cortas a una referencia, en nuestro caso, la referencia es el ensamble metagenómico de la muestra de 48hrs. Bowtie2 genera un archivo de mapeo (SAM) que debe convertirse a un formato binario (BAM), para esta conversión usamos [samtools](https://github.com/samtools/) que contiene multiples subherramientas para trabajar con archivos de mapeos.
+
 Para generar este archivo se utilizaron las siguientes lineas de código.
 
 ``` bash
@@ -37,6 +39,11 @@ bowtie2 -x results/03.profundidad/48hrs -1 data/48hrs_sm_R1.fastq -2 data/48hrs_
 samtools view -Sb -O BAM -@ 40 results/03.profundidad/48hrs.sam | samtools sort -@ 40  -o results/03.profundidad/48hrs_sorted.bam
 # Obtener el índice
 samtools index results/03.profundidad/48hrs_sorted.bam
+```
+
+Ya que generamos el archivo bam ordenado y el índice obtuvimos un archivo con la información de cobertura de cada contig dentro del ensamble, este **archivo de profundidad** se generó con `jgi_summarize_bam_contig_depths` que es una herramienta de [metabat](https://bitbucket.org/berkeleylab/metabat/src/master/).
+
+``` bash
 # jgi
 #Obtener el archivo de profundidad de cada contig
 jgi_summarize_bam_contig_depths  --outputDepth results/03.profundidad/48hrs.mgh_depth.txt results/03.profundidad/48hrs_sorted.bam
@@ -50,6 +57,30 @@ No las ejecutes, sólo son un ejemplo para que las puedas usar con tus propios d
 :::
 
 ### 
+
+::: callout-caution
+## Ejercicio
+
+Antes de comenzar, reúnete con tu equipo y juntos
+
+-   revisen el contenido de los directorios `02.ensambles` y `03.profundidad.txt`
+
+-   Discutan y en una diapositiva expliquen el flujo que se siguió para obtener los archivos que estan esos directorios
+
+La liga de drive para ir trabajando durante el taller es esta: <https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing>
+:::
+
+Sólo por si te pierdes
+
+::: callout-tip
+## Directorio de trabajo
+
+Si en algún momento te pierdes entre directorios, puedes regresar al espacio principal asi:
+
+``` bash
+cd && cd taller_metagenomica_pozol/
+```
+:::
 
 ### Metabat2
 
