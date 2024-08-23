@@ -152,7 +152,7 @@ qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza 
 Veamos los estadísticos de lo que se pudo agrupar.
 
 ``` bash
-qiime tools export --input-path results/03.denoising-stats_v1.qza --output-path results/02.qiime/03.denoising-stats_v1
+qiime tools export --input-path results/02.qiime/03.denoising-stats_v1.qza --output-path results/02.qiime/03.denoising-stats_v1
 ```
 
 ::: callout-important
