@@ -213,6 +213,16 @@ Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qii
 
 Opcionalmente te dejamos un [link con scripts para hacer filtros subsecuentes](https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh), como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.
 
+Exportemos a formato legible por R,
+
+``` bash
+qiime tools export --input-path results/02.qiime/03.feature-table_v1.qza --output-path results/02.qiime/exported-feature-table
+```
+
+``` bash
+qiime tools export --input-path results/02.qiime/taxonomy.qza --output-path results/02.qiime/exported-taxonomy
+```
+
 ### Visualicemos en R
 
 Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados ...
@@ -222,16 +232,17 @@ Abre tu editor en Rstudio
 Importemos los datos de qiime a R como un objeto Phyloseq
 
 ``` r
+#cargar librerias e instalar si no esta
+library(devtools)
+#devtools::install_github("jbisanz/qiime2R")
 library(phyloseq)
 library(qiime2R)
 
-#create phyloseq object
-
+#crear objeto phyloseq
 ps <- qza_to_phyloseq(
-  features = "../results/04.qiime/ASV_table_filter_freq218_emc.qza",
-  #tree = "../results/04.qiime/rooted-tree-iqtree.qza",
-  taxonomy = "../results/04.qiime/taxonomy.qza",
-  metadata = "../data/metadata.tsv")
+  features = "results/02.qiime/03.feature-table_v1.qza",
+  taxonomy = "results/02.qiime/taxonomy.qza",
+  metadata = "data/metadata.tsv")
 ```
 
 Obtengamos información del objeto phyloseq
@@ -261,11 +272,11 @@ Veamos el objeto phyloseq en un objeto Ampvis
 library(ampvis2)
 library(dplyr)
 
-otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps3)@.Data),
-                               phyloseq::otu_table(ps3)@.Data,
-                               phyloseq::tax_table(ps3)@.Data,
+otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps)@.Data),
+                               phyloseq::otu_table(ps)@.Data,
+                               phyloseq::tax_table(ps)@.Data,
                                check.names = FALSE)
-meta_data_ampvis <- data.frame(phyloseq::sample_data(ps3),
+meta_data_ampvis <- data.frame(phyloseq::sample_data(ps),
                                check.names = FALSE
 )
 # change index to SampleID
@@ -282,9 +293,9 @@ Genus_av2_abundance_plot <- amp_heatmap(av2,
             facet_by = "sampleID",
             plot_values = TRUE,
             plot_values_size = 4,
-            tax_show = 45,
+            tax_show = 20,
             tax_aggregate = "Genus",
-            tax_add = c("Kingdom", "Phylum"),
+            tax_add = c("Phylum"),
             plot_legendbreaks = c(1, 5, 5))
 Genus_av2_abundance_plot
 ```
