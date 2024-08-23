@@ -406,7 +406,8 @@ cd && cd taller_metagenomica_pozol/
 ```
 
 ``` bash
-#export PATH=/miniconda3/envs/metagenomics/bin:$PATH
+
+export PATH=/miniconda3/envs/metagenomics/bin:$PATH
 dRep dereplicate results/09.drep/ -d -comp 50 -con 10 --SkipSecondary -g results/09.drep/bins/*.fasta
 ```
 
@@ -415,3 +416,19 @@ dRep dereplicate results/09.drep/ -d -comp 50 -con 10 --SkipSecondary -g results
 ``` bash
 conda deactivate
 ```
+
+::: callout-warning
+## Ejercicio 2
+
+Ahora te toca a tí.
+
+-   Reúnanse en equipos y repliquen todo el flujo hasta este punto con la muestra que les toca.
+
+-   Discutan cada resultado obtenido.
+
+-   En la carpeta compartida de Drive busquen la presentación para el Ejercicio 2, en la diapositiva correspondiente resuman sus resultados obtenidos para que los presenten
+
+Tiempo de actividad (1 hr)
+
+Tiempo de presentación de resultados (5 min por equipo)
+:::

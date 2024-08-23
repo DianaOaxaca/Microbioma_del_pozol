@@ -39,7 +39,7 @@ En este taller introductorio aprenderemos a reconstruir genomas a partir de meta
 **Día 5**
 
 | Hora          | Tema                                                      |
-|------------------|-----------------------------------------------|
+|---------------|-----------------------------------------------------------|
 | 9:00 - 10:00  | Introducción al análisis de amplicones                    |
 | 10:00 - 10:30 | Introducción a QIIME2                                     |
 | 10:30 - 10:45 | Descanso                                                  |
