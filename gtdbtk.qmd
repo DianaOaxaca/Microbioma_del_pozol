@@ -21,7 +21,7 @@ conda activate gtdbtk-2.1.1
 Crea el directorio de resultados para gtdbtk, copia y renombra los bins:
 
 ``` bash
-bash src/copiar_renombrar_bins_para_gtdb.sh
+ bash src/copiar_renombrarbins.sh
 ```
 
 Ahora si, vamos a correrlo

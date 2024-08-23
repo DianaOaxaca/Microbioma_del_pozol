@@ -27,9 +27,14 @@ En este taller vamos a usar Qiime2 con DADA2 para inferir las ASVs
 Obtengamos los datos:
 
 ``` bash
+# ve a tu $HOME
 cd
-mkdir taller_amplicones_pozol
-cp -r /home/alumno1/pozol_data/taller_amplicones_pozol/data
+# crea el directorio para amplicones y un subdirectorio src
+mkdir -p taller_amplicones_pozol/src
+# entra al directorio de amplicones
+cd taller_amplicones_pozol
+# copia los datos
+cp -r /home/alumno1/pozol_data/taller_amplicones_pozol/data .
 ```
 
 ### Limpieza
@@ -55,15 +60,15 @@ done
 
 ### Crear Manifest
 
-Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello ejecuta el script \`src/create_manifest.sh\`
+Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello crea el script \`src/create_manifest.sh\`
 
 ``` bash
-bash src/create_manifest.sh
+nano src/create_manifest.sh
 ```
 
-El contenido es el siguiente:
+Copia y pega el siguiente contenido en \`src/create_manifest.sh\` :
 
-``` markdown
+``` bash
 #!/usr/bin/bash
 #Create manifest file
 
@@ -81,6 +86,12 @@ for sample in $id; do
         echo -e $source","$path"/"$r1 >> ../../data/manifest.csv
         echo -e $source","$path"/"$r2 >> ../../data/manifest.csv
 done
+```
+
+Ejecuta el script:
+
+``` bash
+bash src/create_manifest.sh
 ```
 
 ### Importar los datos
