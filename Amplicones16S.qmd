@@ -10,13 +10,27 @@ El análisis de amplicones, también llamado meta-taxonomía y mal llamado metag
 
 Existen diversas herramientas para analizar este tipo de datos como Mothur, USEARCH, VSEARCH, Deblur, **AMPtk**, **DADA2 en R**, **QIIME2**, etc.
 
-En este taller vamos a usar Qiime2
+En este taller vamos a usar Qiime2 con DADA2 para inferir las ASVs
+
+### Cómo se infieren las ASVs?
+
+[DADA2](https://benjjneb.github.io/dada2/) es una herramienta para procesar secuencias de amplicones, corrige errores de secuenciación para obtener secuencias de variantes de amplicones exactas (ASVs). Sus pasos principales incluyen: filtrado y recorte de secuencias, aprendizaje del modelo de error, inferencia de secuencias, fusión de pares (si aplica), y eliminación de quimeras. Finalmente, las ASVs obtenidas son clasificadas taxonómicamente.
+
+[![](Figures/InferenciaASVs.png){width="938"}](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-283  https://resjournals.onlinelibrary.wiley.com/doi/10.1111/syen.12406)
 
 ### QIIME2
 
 **Qiime2** (Quantitative Insights Into Microbial Ecology) es un *pipeline* desarrollado para el análisis de metataxonomía ([Bolyen et al., 2019](https://www.nature.com/articles/s41587-019-0209-9)). Contiene herramientas para limpiar secuencias, agrupar, asignar taxonomía, reconstruir filogenias, inferir métricas de diversidad, abundancia diferencial, etc. Es de código abierto, posee una [interfaz gráfica](https://view.qiime2.org/) amigable, [mucha documentación](https://docs.qiime2.org/2022.11/plugins/available/diversity/), [tutoriales](https://docs.qiime2.org/2023.7/tutorials/) y [foros de ayuda](https://forum.qiime2.org/).
 
 ![](Figures/qiime2_wf.jpg){fig-align="center" width="824"}
+
+Obtengamos los datos:
+
+``` bash
+cd
+mkdir taller_amplicones_pozol
+cp -r /home/alumno1/pozol_data/taller_amplicones_pozol/data
+```
 
 ### Limpieza
 
