@@ -2,7 +2,7 @@
 title: "Metabolismo"
 ---
 
-### PROKKA
+PROKKA
 
 ``` bash
 conda activate Prokka_Global
@@ -13,12 +13,20 @@ mkdir -p results/11.prokka
 ```
 
 ``` bash
-for FASTA in $(ls results/09.drep/dereplicated_genomes/); do  
-  LOCUSTAG=$(basename $FASTA .fasta);         
-  echo "Run prokka in: " $LOCUSTAG ; 
-  PROKKA='prokka --locustag '$LOCUSTAG' --prefix '$LOCUSTAG' --addgenes --addmrna  --cpus 4 --outdir results/11.prokka/'$LOCUSTAG' results/09.drep/dereplicated_genomes/'$FASTA'';         
-  echo $PROKKA; $PROKKA; 
+for FASTA in $(ls results/10.gtdbtk/bins/); do
+    LOCUSTAG=$(basename $FASTA .fasta)
+    prokka --locustag "${LOCUSTAG}_Scaffold" \
+           --prefix $LOCUSTAG \
+           --addgenes \
+           --addmrna \
+           --cpus 4 \
+           --outdir "results/11.prokka/$LOCUSTAG" \
+           "results/10.gtdbtk/bins/$FASTA"
 done
+```
+
+``` bash
+ rm -r results/12.kofam/tmp48hBin0*
 ```
 
 ``` bash
@@ -32,13 +40,15 @@ mkdir -p results/12.kofam
 ```
 
 ``` bash
-exec_annotation results/11.prokka/15732_sub/15732_sub.faa -o test/15732_sub.txt --report-unannotated --tmp-dir test/temp15732_sub -p /home/alumno1/kofam/db/profiles/ -k /home/alumno1/kofam/db/ko_list 
-```
-
-``` bash
-for FAA in $(ls results/11.prokka/*/*.faa); do 
-  name=$(basename $FAA .faa); 
-  exec_annotation $FAA -o results/12.kofam/$name".txt" --report-unannotated --cpu 4 --tmp-dir results/12.kofam/"tmp"$name -p /home/alumno1/kofam/db/profiles/ -k /home/alumno1/kofam/db/ko_list; 
+for FAA in $(ls results/11.prokka/*/*.faa); do
+    name=$(basename $FAA .faa)
+    exec_annotation $FAA \
+        -o results/12.kofam/"$name.txt" \
+        --report-unannotated \
+        --cpu 4 \
+        --tmp-dir results/12.kofam/"tmp$name" \
+        -p /home/alumno1/kofam/db/profiles/ \
+        -k /home/alumno1/kofam/db/ko_list
 done
 ```
 
@@ -47,90 +57,3 @@ rm -r results/12.kofam/tmp*
 ```
 
 ### RBiMS
-
-Vamos a preparar todo para RBims, hay que ajustar la salida de kofam para que se pueda leer:
-
-``` bash
-#!/bin/bash
-
-# Crear el subdirectorio "mod" si no existe
-mkdir -p results/12.kofam/mod
-
-# Iterar sobre todos los archivos .txt en el directorio results/12.kofam/
-for file in results/12.kofam/*.txt; do
-    # Obtener el nombre base del archivo
-    base=$(basename "$file")
-    
-    # Modificar el archivo y guardarlo en el subdirectorio "mod"
-    sed 's/\(_\)\([0-9]\+\)\(_[0-9]\+\)/-Scaffold-\2\3/' "$file" > "results/12.kofam/mod/$base"
-done
-```
-
-Ahora si, a RBIMS
-
-``` bash
-#A continuación, leemos los resultados de KEGG y los mapeamos con la base de datos de KEGG:
-  
-pozol_mapp <- read_ko("results/12.kofam/mod/") %>%
-  mapping_ko()
-
-# veamos las vías metabólicas relacionadas con la obtención de energía:
-  
-Overview <- c("Central Metabolism", "Carbon Fixation", "Nitrogen Metabolism", "Sulfur Metabolism", "Fermentation", "Methane Metabolism")
-Energy_metabolisms_pozol <- pozol_mapp %>%
-  drop_na(Cycle) %>%
-  get_subset_pathway(rbims_pathway, Overview) 
-
-# Visualizamos los datos con un gráfico de burbujas:
-  
-  plot_bubble(tibble_ko = Energy_metabolisms_pozol,
-              x_axis = Bin_name, 
-              y_axis = Pathway_cycle,
-              analysis = "KEGG",
-              calc = "Percentage",
-              range_size = c(1, 10),
-              y_labs = FALSE,
-              x_labs = FALSE)  
-Añadiremos metadatos, como la taxonomía:
-  
-  Metadatos <- read_delim("11.GTDBTK/Metadatos.txt", delim = "\t")
-Y generaremos un gráfico de burbujas con metadatos:
-  
-  plot_bubble(tibble_ko = Energy_metabolisms_pozol,
-              x_axis = Bin_name, 
-              y_axis = Pathway_cycle,
-              analysis = "KEGG",
-              data_experiment = Metadatos,
-              calc = "Percentage",
-              color_character = Class,
-              range_size = c(1, 10),
-              y_labs = FALSE,
-              x_labs = FALSE) 
-Exploración de una Vía Específica
-Podemos explorar una sola vía, como el “Secretion system,” y crear un mapa de calor para visualizar los genes relacionados con esta vía:
-  
-  Secretion_system_pozol <- pozol_mapp %>%
-  drop_na(Cycle) %>%
-  get_subset_pathway(Cycle, "Secretion system")
-Y, finalmente, generamos un mapa de calor:
-  
-  plot_heatmap(tibble_ko = Secretion_system_pozol, 
-               y_axis = Genes,
-               analysis = "KEGG",
-               calc = "Binary")
-También podemos agregar metadatos para obtener una visión más completa:
-  
-  plot_heatmap(tibble_ko = Secretion_system_pozol, 
-               y_axis = Genes,
-               data_experiment = Metadatos,
-               order_x = Phylum,
-               analysis = "KEGG",
-               calc = "Binary")
-plot_heatmap(tibble_ko = Secretion_system_pozol, 
-             y_axis = Genes,
-             data_experiment = Metadatos,
-             order_y = Pathway_cycle,
-             order_x = Phylum,
-             analysis = "KEGG",
-             calc = "Binary")
-```

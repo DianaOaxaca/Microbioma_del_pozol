@@ -16,28 +16,33 @@ conda activate gtdbtk-2.1.1
 ```
 :::
 
-Crea el directorio de resultados para gtdbtk:
+Crea el directorio de resultados para gtdbtk, copia y renombra los bins para gtdbtk:
 
 ``` bash
-mkdir -p results/10.gtdbtk
+bash src/copiar_renombrar_bins_para_gtdb.sh
 ```
 
 Ahora si, vamos a correrlo
 
 ``` bash
-gtdbtk classify_wf --genome_dir results/09.drep/dereplicated_genomes/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta
+pip install numpy==1.19.5
+
+nohup gtdbtk classify_wf --genome_dir results/10.gtdbtk/bins/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta > gtdbtk.nohup &
+```
+
+No olvides desactivar el ambiente
+
+``` bash
+conda deactivate
 ```
 
 Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.
 
-Análisis en R
-
 ``` r
-
-
 library(tidyverse)
+library(ggplot2)
 
-GTDBK <- read.table("results/10.GTDBtk/gtdbtk.bac120.summary.tsv", 
+GTDBK <- read.table("results/10.gtdbtk/gtdbtk.bac120.summary.tsv", 
   sep = "\t", header = TRUE, na.strings = "", stringsAsFactors = FALSE) %>%
   as_tibble()
 
@@ -52,22 +57,18 @@ pozol_gtdbtk <- GTDBK %>%
   select(Bin_name, Domain, Phylum, Class, Order, Family, Genus, Species)
 
 #Guardamos los datos en un archivo de metadatos:
-write.table(pozol_gtdbtk, file = "results/10.GTDBTK/Metadatos.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+write.table(pozol_gtdbtk, file = "results/10.gtdbtk/Metadatos.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
 
-#Visualización de Datos Creamos un gráfico de barras interactivo que muestra la distribución taxonómica de los bins:
+#Visualización de Datos Creamos un gráfico de barras  que muestra la distribución taxonómica de los bins:
 
-GTDBtk <- pozol_gtdbtk %>%
-  count(Domain, Phylum) %>%
+GTDBtk_barplot <- pozol_gtdbtk %>%
+  count(Phylum, Genus) %>%
   rename(Number_of_MAGs = n) %>%
-  ggplot(aes(x = Domain, y = Number_of_MAGs, fill = Phylum)) + 
+  ggplot(aes(x = Phylum, y = Number_of_MAGs, fill = Genus)) + 
   geom_bar(stat = "identity", position = position_dodge()) +
   theme_minimal()
-```
 
-No olvides desactivar el ambiente
-
-``` bash
-conda deactivate
+GTDBtk_barplot
 ```
 
 ::: callout-important
