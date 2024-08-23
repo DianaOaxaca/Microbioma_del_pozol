@@ -29,7 +29,7 @@ Ahora si, vamos a correrlo
 ``` bash
 pip install numpy==1.19.5
 
-nohup gtdbtk classify_wf --genome_dir results/10.gtdbtk/bins/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta > gtdbtk.nohup &
+gtdbtk classify_wf --genome_dir results/10.gtdbtk/bins/ --out_dir results/10.gtdbtk/ --cpus 4 -x fasta
 ```
 
 No olvides desactivar el ambiente

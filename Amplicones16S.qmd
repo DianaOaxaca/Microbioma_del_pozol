@@ -34,7 +34,7 @@ mkdir -p taller_amplicones_pozol/src
 # entra al directorio de amplicones
 cd taller_amplicones_pozol
 # copia los datos
-cp -r /home/alumno1/pozol_data/taller_amplicones_pozol/data .
+cp -r /home/alumno1/taller_amplicones_pozol/data .
 ```
 
 ### Limpieza
