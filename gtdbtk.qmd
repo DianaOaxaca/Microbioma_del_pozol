@@ -4,7 +4,9 @@ title: "Asignación taxonómica"
 
 ### GTDB-tk
 
-GTDB-Tk es una herramienta bioinformática que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporcionando una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
+GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
+
+![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="444"}
 
 Recordemos que ya tenemos un set de *bins* refinados y desreplicados. Ahora vamos a asignarles identidad taxonómica, para ello vamos a correr GTDB-tk
 
@@ -16,7 +18,7 @@ conda activate gtdbtk-2.1.1
 ```
 :::
 
-Crea el directorio de resultados para gtdbtk, copia y renombra los bins para gtdbtk:
+Crea el directorio de resultados para gtdbtk, copia y renombra los bins:
 
 ``` bash
 bash src/copiar_renombrar_bins_para_gtdb.sh

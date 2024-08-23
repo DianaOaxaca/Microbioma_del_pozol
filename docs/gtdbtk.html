@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -183,9 +183,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="gtdb-tk" class="level3">
+<section id="gtdb-tk" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="gtdb-tk">GTDB-tk</h3>
-<p>GTDB-Tk es una herramienta bioinformática que asigna taxonomía a genomas utilizando la base de datos <a href="https://gtdb.ecogenomic.org/">GTDB</a> (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporcionando una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.</p>
+<p>GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos <a href="https://gtdb.ecogenomic.org/">GTDB</a> (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="Figures/GTDB-tk_worflow.png" class="img-fluid figure-img" width="444"></p>
+<figcaption class="figure-caption margin-caption">GTDB-tk Workflow</figcaption>
+</figure>
+</div>
 <p>Recordemos que ya tenemos un set de <em>bins</em> refinados y desreplicados. Ahora vamos a asignarles identidad taxonómica, para ello vamos a correr GTDB-tk</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -200,7 +206,7 @@ Activa el ambiente de gtdbtk
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gtdbtk-2.1.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<p>Crea el directorio de resultados para gtdbtk, copia y renombra los bins para gtdbtk:</p>
+<p>Crea el directorio de resultados para gtdbtk, copia y renombra los bins:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> src/copiar_renombrar_bins_para_gtdb.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ahora si, vamos a correrlo</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.19.5</span>
