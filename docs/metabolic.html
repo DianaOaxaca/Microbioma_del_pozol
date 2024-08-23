@@ -162,6 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#prokka" id="toc-prokka" class="nav-link active" data-scroll-target="#prokka">PROKKA</a></li>
   <li><a href="#kofamscan" id="toc-kofamscan" class="nav-link" data-scroll-target="#kofamscan">KofamScan</a></li>
   <li><a href="#rbims" id="toc-rbims" class="nav-link" data-scroll-target="#rbims">RbiMs</a></li>
+  <li><a href="#antismash" id="toc-antismash" class="nav-link" data-scroll-target="#antismash">Antismash</a></li>
   </ul>
 </nav>
     </div>
@@ -210,7 +211,7 @@ Activa el ambiente para PROKKA
 </div>
 <p>Tenemos el ambiente activo, ahora vamos a crear un directorio de resultados para prokka.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/11.prokka</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Para correrlopodemos hacer un ciclo que nos permita anotar todos los <em>bins.</em></p>
+<p>Para correrlo, podemos hacer un ciclo que nos permita anotar todos los <em>bins.</em></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FASTA <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> results/10.gtdbtk/bins/<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">LOCUSTAG</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FASTA</span> .fasta<span class="va">)</span></span>
@@ -246,7 +247,7 @@ Explora
 </section>
 <section id="kofamscan" class="level3">
 <h3 class="anchored" data-anchor-id="kofamscan">KofamScan</h3>
-<p><a href="https://github.com/takaram/kofam_scan">KofamScan</a> es una herramienta de anotación que la base de datos de KOfam de KEGG para obtener información sobre los genes que participan en diferentes rutas metabólicas.</p>
+<p><a href="https://github.com/takaram/kofam_scan">KofamScan</a> es una herramienta de anotación, usa la base de datos KOfam de KEGG para obtener información sobre los genes que participan en diferentes rutas metabólicas.</p>
 <p>Vamos a crear el directorio de resultados</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/12.kofam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -260,7 +261,7 @@ Ejemplo de como correr KOfamScan
 </div>
 <div class="callout-body-container callout-body">
 <p>GHH</p>
-<p>KofamScan requiere mucho tiempo de ejecución. Para efectos del taller nosotros ya locorrimos y te proporcionaremos los resultados. Te dejamos el bloque de código que usamos para este paso.</p>
+<p>KofamScan requiere mucho tiempo de ejecución. Para efectos del taller nosotros ya lo corrimos y te proporcionaremos los resultados. Pero te dejamos el bloque de código que usamos para este paso.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FAA <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> results/11.prokka/<span class="pp">*</span>/<span class="pp">*</span>.faa<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">name</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$FAA</span> .faa<span class="va">)</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">exec_annotation</span> <span class="va">$FAA</span> <span class="dt">\</span></span>
@@ -275,6 +276,7 @@ Ejemplo de como correr KOfamScan
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#rm -r results/12.kofam/tmp*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p>Estos resultados ya los tienes en el directorio <code>results/12.kofam</code></p>
 <p>Y ahora que ya tenemos los identificadores de KO para cada proteína, vamos a filtrar y graficar el metabolismo de los <em>bins</em>.</p>
 </section>
 <section id="rbims" class="level3 page-columns page-full">
@@ -364,6 +366,12 @@ Ejemplo de como correr KOfamScan
 <span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>             <span class="at">order_x =</span> Phylum,</span>
 <span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>             <span class="at">analysis =</span> <span class="st">"KEGG"</span>,</span>
 <span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>             <span class="at">calc =</span> <span class="st">"Binary"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Extras???</p>
+</section>
+<section id="antismash" class="level3">
+<h3 class="anchored" data-anchor-id="antismash">Antismash</h3>
+<p><a href="https://carpentries-incubator.github.io/genome-mining/02-antismash/index.html" class="uri">https://carpentries-incubator.github.io/genome-mining/02-antismash/index.html</a></p>
+<p><a href="https://carpentries-incubator.github.io/genome-mining/03-antiSMASHdb-MiBiG/index.html" class="uri">https://carpentries-incubator.github.io/genome-mining/03-antiSMASHdb-MiBiG/index.html</a></p>
 
 
 </section>

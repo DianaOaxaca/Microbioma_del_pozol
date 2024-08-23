@@ -59,7 +59,7 @@ No las ejecutes, sólo son un ejemplo para que las puedas usar con tus propios d
 ### 
 
 ::: callout-caution
-## Ejercicio
+## Ejercicio 1
 
 Antes de comenzar, reúnete con tu equipo y juntos
 
@@ -225,13 +225,13 @@ Para disminuir la contaminación e incrementar la completitud hay algunos progra
 
 ### CheckM
 
-Antes de proceder al refinamiento es necesario tener claro cómo se evalúa la completitud y contaminación de los *bins.* Para esta evaluación se usa [CheckM](https://github.com/Ecogenomics/CheckM/wiki/Workflows#lineage-specific-workflow) que se ha convertido en una herramienta estándar para la evaluación de la calidad de genomas y MAGs y es usada por la mayoría de programas de refinamiento.
+Antes de proceder al refinamiento es necesario tener claro cómo se evalúa la completitud y contaminación de los *bins.* Para esta evaluación se usa [CheckM](https://github.com/Ecogenomics/CheckM/wiki/Workflows#lineage-specific-workflow) que se ha convertido en una herramienta estándar para la evaluación de la calidad de genomas y MAGs, y es usada por la mayoría de programas de refinamiento.
 
-Para hacer esta evaluación CheckM utiliza una serie de herramientas: `tree` organiza los genomas en un árbol de referencia. `tree_qa` evalúa la cantidad de genes marcadores filogenéticos y su ubicación en el árbol. El comando `lineage_set` crea un archivo de marcadores específicos de linaje, que se usa en el comando `analyze` para evaluar la integridad y contaminación de los genomas. Finalmente, el comando `qa` genera tablas que resumen la calidad de los genomas.
+Para hacer esta evaluación, CheckM utiliza una serie de herramientas: `tree` organiza los genomas en un árbol de referencia. `tree_qa` evalúa la cantidad de genes marcadores filogenéticos y su ubicación en el árbol. El comando `lineage_set` crea un archivo de marcadores específicos de linaje, que se usa en el comando `analyze` para evaluar la integridad y contaminación de los genomas. Finalmente, el comando `qa` genera tablas que resumen la calidad de los genomas.
 
 ![CheckM Workflow](Figures/CheckM_workflow.png){fig-align="center" width="444"}
 
-En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.
+En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo, es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.
 
 Te dejamos la siguiente línea para que la uses en tus proyectos, además, en [este repositorio](https://github.com/DianaOaxaca/03.Analisis_de_metagenomas) encontrarás los scripts que pueden ser útiles para extraer los bins que cumplan la calidad que buscas:
 
@@ -241,9 +241,11 @@ Te dejamos la siguiente línea para que la uses en tus proyectos, además, en [e
 #checkm lineage_wf results/06.vamb/48hrs/bins results/checkm/ -x fna -t 4  -f results/checkm/checkm_vamb_bins.txt
 ```
 
+Y ahora si, a refinar los *bins* ... 🥳
+
 ### Binning_refiner
 
-[Binning_refiner](https://doi.org/10.1093/bioinformatics/btx086) se enfoca en refinar y fusionar los bins para mejorar la integridad y reducir la contaminación. Identifica *bins* que pueden representar el mismo genoma y los fusiona. Después elimina posibles contaminaciones, durante el proceso Binning_refiner evalúa la calidad de los bins.
+[Binning_refiner](https://doi.org/10.1093/bioinformatics/btx086) se enfoca en refinar y fusionar los bins para mejorar la integridad y reducir la contaminación. Identifica *bins* que pueden representar el mismo genoma y los fusiona. Después elimina posibles contaminaciones, durante el proceso, Binning_refiner evalúa la calidad de los bins.
 
 [![Binning_refiner](Figures/Binning_refiner.png){fig-align="center" width="444"}](https://doi.org/10.1093/bioinformatics/btx086)
 
@@ -426,7 +428,7 @@ Ahora te toca a tí.
 
 -   Discutan cada resultado obtenido.
 
--   En la carpeta compartida de Drive busquen la presentación para el Ejercicio 2, en la diapositiva correspondiente resuman sus resultados obtenidos para que los presenten
+-   En la [carpeta compartida de Drive](https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing) busquen la presentación para el Ejercicio 2, en la diapositiva correspondiente resuman sus resultados obtenidos para que los presenten.
 
 Tiempo de actividad (1 hr)
 

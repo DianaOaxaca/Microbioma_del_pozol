@@ -266,7 +266,7 @@ Atención
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Ejercicio
+Ejercicio 1
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -520,23 +520,24 @@ Otros programas para binning
 <p>Para disminuir la contaminación e incrementar la completitud hay algunos programas que pueden ayudarnos. entre ellos están Binning_refiner y DASTool.</p>
 <section id="checkm" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="checkm">CheckM</h3>
-<p>Antes de proceder al refinamiento es necesario tener claro cómo se evalúa la completitud y contaminación de los <em>bins.</em> Para esta evaluación se usa <a href="https://github.com/Ecogenomics/CheckM/wiki/Workflows#lineage-specific-workflow">CheckM</a> que se ha convertido en una herramienta estándar para la evaluación de la calidad de genomas y MAGs y es usada por la mayoría de programas de refinamiento.</p>
-<p>Para hacer esta evaluación CheckM utiliza una serie de herramientas: <code>tree</code> organiza los genomas en un árbol de referencia. <code>tree_qa</code> evalúa la cantidad de genes marcadores filogenéticos y su ubicación en el árbol. El comando <code>lineage_set</code> crea un archivo de marcadores específicos de linaje, que se usa en el comando <code>analyze</code> para evaluar la integridad y contaminación de los genomas. Finalmente, el comando <code>qa</code> genera tablas que resumen la calidad de los genomas.</p>
+<p>Antes de proceder al refinamiento es necesario tener claro cómo se evalúa la completitud y contaminación de los <em>bins.</em> Para esta evaluación se usa <a href="https://github.com/Ecogenomics/CheckM/wiki/Workflows#lineage-specific-workflow">CheckM</a> que se ha convertido en una herramienta estándar para la evaluación de la calidad de genomas y MAGs, y es usada por la mayoría de programas de refinamiento.</p>
+<p>Para hacer esta evaluación, CheckM utiliza una serie de herramientas: <code>tree</code> organiza los genomas en un árbol de referencia. <code>tree_qa</code> evalúa la cantidad de genes marcadores filogenéticos y su ubicación en el árbol. El comando <code>lineage_set</code> crea un archivo de marcadores específicos de linaje, que se usa en el comando <code>analyze</code> para evaluar la integridad y contaminación de los genomas. Finalmente, el comando <code>qa</code> genera tablas que resumen la calidad de los genomas.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><img src="Figures/CheckM_workflow.png" class="img-fluid figure-img" width="444"></p>
 <figcaption class="figure-caption margin-caption">CheckM Workflow</figcaption>
 </figure>
 </div>
-<p>En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.</p>
+<p>En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo, es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.</p>
 <p>Te dejamos la siguiente línea para que la uses en tus proyectos, además, en <a href="https://github.com/DianaOaxaca/03.Analisis_de_metagenomas">este repositorio</a> encontrarás los scripts que pueden ser útiles para extraer los bins que cumplan la calidad que buscas:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ejemplo de como correrlo con los bins de vamb</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#se debe activar el ambiente metagenomics</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#checkm lineage_wf results/06.vamb/48hrs/bins results/checkm/ -x fna -t 4  -f results/checkm/checkm_vamb_bins.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y ahora si, a refinar los <em>bins</em> … 🥳</p>
 </section>
 <section id="binning_refiner" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="binning_refiner">Binning_refiner</h3>
-<p><a href="https://doi.org/10.1093/bioinformatics/btx086">Binning_refiner</a> se enfoca en refinar y fusionar los bins para mejorar la integridad y reducir la contaminación. Identifica <em>bins</em> que pueden representar el mismo genoma y los fusiona. Después elimina posibles contaminaciones, durante el proceso Binning_refiner evalúa la calidad de los bins.</p>
+<p><a href="https://doi.org/10.1093/bioinformatics/btx086">Binning_refiner</a> se enfoca en refinar y fusionar los bins para mejorar la integridad y reducir la contaminación. Identifica <em>bins</em> que pueden representar el mismo genoma y los fusiona. Después elimina posibles contaminaciones, durante el proceso, Binning_refiner evalúa la calidad de los bins.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><a href="https://doi.org/10.1093/bioinformatics/btx086"><img src="Figures/Binning_refiner.png" class="img-fluid figure-img" width="444"></a></p>
@@ -686,7 +687,7 @@ Ejercicio 2
 <ul>
 <li><p>Reúnanse en equipos y repliquen todo el flujo hasta este punto con la muestra que les toca.</p></li>
 <li><p>Discutan cada resultado obtenido.</p></li>
-<li><p>En la carpeta compartida de Drive busquen la presentación para el Ejercicio 2, en la diapositiva correspondiente resuman sus resultados obtenidos para que los presenten</p></li>
+<li><p>En la <a href="https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing">carpeta compartida de Drive</a> busquen la presentación para el Ejercicio 2, en la diapositiva correspondiente resuman sus resultados obtenidos para que los presenten.</p></li>
 </ul>
 <p>Tiempo de actividad (1 hr)</p>
 <p>Tiempo de presentación de resultados (5 min por equipo)</p>

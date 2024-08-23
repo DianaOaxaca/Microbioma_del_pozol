@@ -26,7 +26,7 @@ Tenemos el ambiente activo, ahora vamos a crear un directorio de resultados para
 mkdir -p results/11.prokka
 ```
 
-Para correrlopodemos hacer un ciclo que nos permita anotar todos los *bins.*
+Para correrlo, podemos hacer un ciclo que nos permita anotar todos los *bins.*
 
 ``` bash
 nohup
@@ -63,7 +63,7 @@ Ahora que tenemos las proteínas predichas vamos a obtener más anotaciones úti
 
 ### KofamScan
 
-[KofamScan](https://github.com/takaram/kofam_scan) es una herramienta de anotación que la base de datos de KOfam de KEGG para obtener información sobre los genes que participan en diferentes rutas metabólicas.
+[KofamScan](https://github.com/takaram/kofam_scan) es una herramienta de anotación, usa la base de datos KOfam de KEGG para obtener información sobre los genes que participan en diferentes rutas metabólicas.
 
 Vamos a crear el directorio de resultados
 
@@ -76,7 +76,7 @@ mkdir -p results/12.kofam
 
 GHH
 
-KofamScan requiere mucho tiempo de ejecución. Para efectos del taller nosotros ya locorrimos y te proporcionaremos los resultados. Te dejamos el bloque de código que usamos para este paso.
+KofamScan requiere mucho tiempo de ejecución. Para efectos del taller nosotros ya lo corrimos y te proporcionaremos los resultados. Pero te dejamos el bloque de código que usamos para este paso.
 
 ``` bash
 for FAA in $(ls results/11.prokka/*/*.faa); do
@@ -93,6 +93,8 @@ done
 #rm -r results/12.kofam/tmp*
 ```
 :::
+
+Estos resultados ya los tienes en el directorio `results/12.kofam`
 
 Y ahora que ya tenemos los identificadores de KO para cada proteína, vamos a filtrar y graficar el metabolismo de los *bins*.
 
@@ -183,3 +185,11 @@ plot_heatmap(tibble_ko = Secretion_system_pozol,
              analysis = "KEGG",
              calc = "Binary")
 ```
+
+Extras???
+
+### Antismash
+
+<https://carpentries-incubator.github.io/genome-mining/02-antismash/index.html>
+
+<https://carpentries-incubator.github.io/genome-mining/03-antiSMASHdb-MiBiG/index.html>

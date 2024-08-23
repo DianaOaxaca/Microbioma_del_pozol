@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -121,7 +155,21 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#análisis-de-amplicones" id="toc-análisis-de-amplicones" class="nav-link active" data-scroll-target="#análisis-de-amplicones">Análisis de amplicones</a></li>
+  <li><a href="#qiime2" id="toc-qiime2" class="nav-link" data-scroll-target="#qiime2">QIIME2</a></li>
+  <li><a href="#limpieza" id="toc-limpieza" class="nav-link" data-scroll-target="#limpieza">Limpieza</a></li>
+  <li><a href="#crear-manifest" id="toc-crear-manifest" class="nav-link" data-scroll-target="#crear-manifest">Crear Manifest</a></li>
+  <li><a href="#importar-los-datos" id="toc-importar-los-datos" class="nav-link" data-scroll-target="#importar-los-datos">Importar los datos</a></li>
+  <li><a href="#eliminación-de-ruido-y-agrupamiento-con-dada2" id="toc-eliminación-de-ruido-y-agrupamiento-con-dada2" class="nav-link" data-scroll-target="#eliminación-de-ruido-y-agrupamiento-con-dada2">Eliminación de ruido y agrupamiento con Dada2</a></li>
+  <li><a href="#asignación-taxonómica" id="toc-asignación-taxonómica" class="nav-link" data-scroll-target="#asignación-taxonómica">Asignación taxonómica</a></li>
+  <li><a href="#visualicemos-en-r" id="toc-visualicemos-en-r" class="nav-link" data-scroll-target="#visualicemos-en-r">Visualicemos en R</a></li>
+  <li><a href="#recursos-externos" id="toc-recursos-externos" class="nav-link" data-scroll-target="#recursos-externos">Recursos externos</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -143,10 +191,219 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="análisis-de-amplicones" class="level3">
+<h3 class="anchored" data-anchor-id="análisis-de-amplicones">Análisis de amplicones</h3>
+<p>El análisis de amplicones, también llamado meta-taxonomía y mal llamado metagenómica. Se usa ampliamente para conocer la diversidad taxonómica de un ambiente. Se amplifica y secuencía una región de cada organismo que se encuentra en la comunidad. Estos marcadores pueden ser los genes ribosomales <code>16S</code>, <code>18S</code>, <code>ITS</code> o el <code>COI</code>, etc.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="http://merenlab.org/momics"><img src="Figures/AmpliconVsShotgun.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>Existen diversas herramientas para analizar este tipo de datos como Mothur, USEARCH, VSEARCH, Deblur, <strong>AMPtk</strong>, <strong>DADA2 en R</strong>, <strong>QIIME2</strong>, etc.</p>
+<p>En este taller vamos a usar Qiime2</p>
+</section>
+<section id="qiime2" class="level3">
+<h3 class="anchored" data-anchor-id="qiime2">QIIME2</h3>
 <p><strong>Qiime2</strong> (Quantitative Insights Into Microbial Ecology) es un <em>pipeline</em> desarrollado para el análisis de metataxonomía (<a href="https://www.nature.com/articles/s41587-019-0209-9">Bolyen et al., 2019</a>). Contiene herramientas para limpiar secuencias, agrupar, asignar taxonomía, reconstruir filogenias, inferir métricas de diversidad, abundancia diferencial, etc. Es de código abierto, posee una <a href="https://view.qiime2.org/">interfaz gráfica</a> amigable, <a href="https://docs.qiime2.org/2022.11/plugins/available/diversity/">mucha documentación</a>, <a href="https://docs.qiime2.org/2023.7/tutorials/">tutoriales</a> y <a href="https://forum.qiime2.org/">foros de ayuda</a>.</p>
-<p>Recordemos el flujo de análisis que se pueden hacer dentro de este <em>pipeline</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/qiime2_wf.jpg" class="img-fluid figure-img" width="824"></p>
+</figure>
+</div>
+</section>
+<section id="limpieza" class="level3">
+<h3 class="anchored" data-anchor-id="limpieza">Limpieza</h3>
+<p>Aunque dentro de qiime se puede hacer la limpieza de los adaptadores, también podemos hacerlo por fuera con cutadapt.</p>
+<p>Vamos a crear el directorio de resultados de cutadapt</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/01.cutadapt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="st">"results/01.cutadapt"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> FILE <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> data/<span class="pp">*</span>.gz <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s/_.*//'</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">'s/data\///'</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span><span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">cutadapt</span> <span class="at">-m</span> 200 <span class="at">--pair-filter</span> any <span class="at">--no-indels</span> <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-g</span> CCTACGGGNGGCWGCAG <span class="at">-G</span> GACTACHVGGGTATCTAATCC <span class="at">-Z</span> <span class="at">-j</span> 4 <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> <span class="va">$out</span>/<span class="st">"</span><span class="va">${FILE}</span><span class="st">_1.fastq.gz"</span> <span class="at">-p</span> <span class="va">$out</span>/<span class="st">"</span><span class="va">${FILE}</span><span class="st">_2.fastq.gz"</span> data/<span class="st">"</span><span class="va">${FILE}</span><span class="st">_R1.fastq.gz"</span> data/<span class="st">"</span><span class="va">${FILE}</span><span class="st">_R2.fastq.gz"</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="crear-manifest" class="level3">
+<h3 class="anchored" data-anchor-id="crear-manifest">Crear Manifest</h3>
+<p>Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello ejecuta el script `src/create_manifest.sh`</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> src/create_manifest.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>El contenido es el siguiente:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>#!/usr/bin/bash</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>#Create manifest file</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cd results/01.cutadapt</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>id=$(ls *.gz |  sed 's/_.*//g' | sort -u)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>echo -e "sample-id"",""absolute-filepath"",""direction" &gt; ../../data/manifest.csv</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>for sample in $id; do</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        source=$(awk -F"\t" -v sample="$sample" '$1 == sample {print $1}' ../../data/metadata.tsv)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        r1=$(echo -e $sample"_1.fastq.gz"",""forward")</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        r2=$(echo -e $sample"_2.fastq.gz"",""reverse")</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        path=$(pwd)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        echo -e $source","$path"/"$r1 &gt;&gt; ../../data/manifest.csv</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        echo -e $source","$path"/"$r2 &gt;&gt; ../../data/manifest.csv</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>done</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="importar-los-datos" class="level3">
+<h3 class="anchored" data-anchor-id="importar-los-datos">Importar los datos</h3>
+<p>Bien, ahora ya tenemos el archivo manifest que es necesario para importar a QIIME2. Vamos a hacerlo … pero primero a crear el directorio de resultados de qiime.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/02.qiime</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#importar data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> tools import <span class="at">--type</span> <span class="st">'SampleData[PairedEndSequencesWithQuality]'</span><span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="at">--input-path</span> data/manifest.csv <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="at">--output-path</span> results/02.qiime/01.demux.qza<span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a> <span class="at">--input-format</span> <span class="st">'PairedEndFastqManifestPhred33'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#convertir qza a qzv</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> demux summarize <span class="at">--i-data</span> results/02.qiime/01.demux.qza <span class="at">--o-visualization</span> results/02.qiime/01.demux.qzv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Descarga el archivo <code>qzv</code> en tu computadora y vizualizalo en la página <a href="https://view.qiime2.org/">Qiime2view</a>. Veras algo como esto:</p>
+<p><img src="Figures/01.demux.png" class="img-fluid" width="892"></p>
+<p>Ya que visualizamos la calidad y el número de lecturas que tienen las muestras, procederemos a eliminar el ruido y hacer el agrupamiento con DADA2.</p>
+</section>
+<section id="eliminación-de-ruido-y-agrupamiento-con-dada2" class="level3">
+<h3 class="anchored" data-anchor-id="eliminación-de-ruido-y-agrupamiento-con-dada2">Eliminación de ruido y agrupamiento con Dada2</h3>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Discutamos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de comenzar el <em>denoising</em> , veamos la ayuda.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="at">--i-demultiplexed-seqs</span> <span class="at">--help</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Como habrás notado, es necesario tomar decisiones basadas en la calidad de nuestras lecturas para definir los valores de truncado. Es muy importante dener en cuenta la longitud de las lecturas y del amplicón deseado para tener una idea de la longitud del sobrelape que se obtendría.</p>
+<p>Toma en cuenta lo siguiente:</p>
+<pre><code>(longitud lectura Fordware) + (longitud lectura Reverse) − (longitud del amplicon) − 
+(longitud lectura Fordware − --p-trunc-len-f value) − (longitud lectura Reverse − --p-trunc-len-r value) 
+= sobrelape</code></pre>
+<p>Para hacer el <em>denoising</em> y agrupamiento con DADA2 ejecutemos lo siguiente:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> dada2 denoise-paired <span class="at">--i-demultiplexed-seqs</span> results/02.qiime/01.demux.qza  <span class="at">--p-trunc-len-f</span> 280 <span class="at">--p-trunc-len-r</span> 250  <span class="at">--o-representative-sequences</span> results/02.qiime/03.rep-seqs_v1.qza <span class="at">--o-table</span> results/02.qiime/03.feature-table_v1.qza <span class="at">--o-denoising-stats</span> results/03.denoising-stats_v1.qza <span class="at">--p-n-threads</span> 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Veamos los estadísticos de lo que se pudo agrupar.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> tools export <span class="at">--input-path</span> results/03.denoising-stats_v1.qza <span class="at">--output-path</span> results/03.denoising-stats_v1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Ejercicio 1
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Reúnanse en equipos, revisen la ayuda, discutan y generen una versión 2 de <em>denoising</em>. Obtengan sus estadísticas, comparen los resultados y expongan sus conclusiones en la presentación que corresponde.</p>
+<p><a href="https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing" class="uri">https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing</a></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Para comparar puedes correr la siguiente línea</p>
+<pre><code>head results/02.qiime/03.denoising-stats_v*/stats.tsv</code></pre>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="asignación-taxonómica" class="level3">
+<h3 class="anchored" data-anchor-id="asignación-taxonómica">Asignación taxonómica</h3>
+<p>En qiime podemos hacer la anotación taxonómica usando diferentes aproximaciones. Nosotros usaremos <code>sklearn</code> para esto, en el taller usaremos una base datos ya entrenada para las regiones V3-V4. El código para que tú entrenes la base de datos de acuerdo a la región que te interesa lo puedes encontrar en <a href="https://docs.qiime2.org/2024.2/tutorials/feature-classifier/">esta página</a>. O en la página de QIIME suele estar una base ya entrenada para la región V4 que puedes descargar <a href="https://docs.qiime2.org/2024.2/data-resources/">aquí</a>.</p>
+<p>Vamos a hacer la asignación taxonómica:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-classifier classify-sklearn <span class="dt">\</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--i-classifier</span> data/dbs/classifier_silva_138_trained.qza <span class="dt">\</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--i-reads</span> results/02.qiime/03.rep-seqs_v1.qza <span class="dt">\</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--o-classification</span> results/02.qiime/taxonomy.qza <span class="at">--p-n-jobs</span> 10</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y podemos generar archivos para visualizar los resultados</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar la taxonomía</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> metadata tabulate <span class="dt">\</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--m-input-file</span> results/02.qiime/taxonomy.qza <span class="dt">\</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--o-visualization</span> results/02.qiime/taxonomy.qzv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualizar las secuencias representativas</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table tabulate-seqs <span class="dt">\</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>--i-data results/02.qiime/03.rep-seqs_v1.qza <span class="dt">\</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>--o-visualization results/02.qiime/03.rep-seqs_v1.qza.qzv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualizar la tabla de conteos</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qiime</span> feature-table summarize <span class="dt">\</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>--i-table results/02.qiime/03.feature-table_v1.qza <span class="dt">\</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>--o-visualization results/02.qiime/03.feature-table_v1.qzv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Descarga los archivos <code>qzv</code> en tu computadora y visualízalos en la página <a href="https://view.qiime2.org/">Qiime2view</a></p>
+<p>Opcionalmente te dejamos un <a href="https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh">link con scripts para hacer filtros subsecuentes</a>, como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.</p>
+</section>
+<section id="visualicemos-en-r" class="level3">
+<h3 class="anchored" data-anchor-id="visualicemos-en-r">Visualicemos en R</h3>
+<p>Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados …</p>
+<p>Abre tu editor en Rstudio</p>
+<p>Importemos los datos de qiime a R como un objeto Phyloseq</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(phyloseq)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qiime2R)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#create phyloseq object</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>ps <span class="ot">&lt;-</span> <span class="fu">qza_to_phyloseq</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="st">"../results/04.qiime/ASV_table_filter_freq218_emc.qza"</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#tree = "../results/04.qiime/rooted-tree-iqtree.qza",</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">taxonomy =</span> <span class="st">"../results/04.qiime/taxonomy.qza"</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">metadata =</span> <span class="st">"../data/metadata.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Obtengamos información del objeto phyloseq</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(microbiome)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#check data</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>microbiome<span class="sc">::</span><span class="fu">summarize_phyloseq</span>(ps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Hagamos un chequeo rápido del esfuerzo de muestreo</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">as</span>(<span class="fu">t</span>(<span class="fu">otu_table</span>(ps)), <span class="st">"matrix"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>raremax <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="fu">rowSums</span>(mat))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(<span class="fu">rarecurve</span>(mat, <span class="at">step =</span> <span class="dv">1000</span>, <span class="at">sample =</span> raremax, </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">col =</span> <span class="st">"purple4"</span>, <span class="at">label =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Veamos el objeto phyloseq en un objeto Ampvis</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ampvis2)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>otu_table_ampvis <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">OTU =</span> <span class="fu">rownames</span>(phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(ps3)<span class="sc">@</span>.Data),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                               phyloseq<span class="sc">::</span><span class="fu">otu_table</span>(ps3)<span class="sc">@</span>.Data,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                               phyloseq<span class="sc">::</span><span class="fu">tax_table</span>(ps3)<span class="sc">@</span>.Data,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">check.names =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>meta_data_ampvis <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(phyloseq<span class="sc">::</span><span class="fu">sample_data</span>(ps3),</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># change index to SampleID</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>meta_data_ampvis <span class="ot">&lt;-</span> meta_data_ampvis <span class="sc">%&gt;%</span> <span class="fu">rownames_to_column</span>(<span class="at">var =</span> <span class="st">"SampleID"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># finalmente generamos el objeto ampvis</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>av2 <span class="ot">&lt;-</span> <span class="fu">amp_load</span>(otu_table_ampvis, meta_data_ampvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Visualicemos las abundancias en un heatmap</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#heatmap</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>Genus_av2_abundance_plot <span class="ot">&lt;-</span> <span class="fu">amp_heatmap</span>(av2,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">facet_by =</span> <span class="st">"sampleID"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot_values =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot_values_size =</span> <span class="dv">4</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">tax_show =</span> <span class="dv">45</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">tax_aggregate =</span> <span class="st">"Genus"</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">tax_add =</span> <span class="fu">c</span>(<span class="st">"Kingdom"</span>, <span class="st">"Phylum"</span>),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">plot_legendbreaks =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>Genus_av2_abundance_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Diversidad alfa</p>
+<p>Diversidad beta</p>
+</section>
+<section id="recursos-externos" class="level3">
+<h3 class="anchored" data-anchor-id="recursos-externos">Recursos externos</h3>
+<p>Si quieres profundizar en el análisis de amplicones te recomendamos visitar el canal de youtube y/o los cursos y asesorias de <a href="https://microbioma-lab.com/">microbioma-lab</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -2,6 +2,272 @@
 title: "Amplicones 16S"
 ---
 
+### Análisis de amplicones
+
+El análisis de amplicones, también llamado meta-taxonomía y mal llamado metagenómica. Se usa ampliamente para conocer la diversidad taxonómica de un ambiente. Se amplifica y secuencía una región de cada organismo que se encuentra en la comunidad. Estos marcadores pueden ser los genes ribosomales `16S`, `18S`, `ITS` o el `COI`, etc.
+
+[![](Figures/AmpliconVsShotgun.png)](http://merenlab.org/momics)
+
+Existen diversas herramientas para analizar este tipo de datos como Mothur, USEARCH, VSEARCH, Deblur, **AMPtk**, **DADA2 en R**, **QIIME2**, etc.
+
+En este taller vamos a usar Qiime2
+
+### QIIME2
+
 **Qiime2** (Quantitative Insights Into Microbial Ecology) es un *pipeline* desarrollado para el análisis de metataxonomía ([Bolyen et al., 2019](https://www.nature.com/articles/s41587-019-0209-9)). Contiene herramientas para limpiar secuencias, agrupar, asignar taxonomía, reconstruir filogenias, inferir métricas de diversidad, abundancia diferencial, etc. Es de código abierto, posee una [interfaz gráfica](https://view.qiime2.org/) amigable, [mucha documentación](https://docs.qiime2.org/2022.11/plugins/available/diversity/), [tutoriales](https://docs.qiime2.org/2023.7/tutorials/) y [foros de ayuda](https://forum.qiime2.org/).
 
-Recordemos el flujo de análisis que se pueden hacer dentro de este *pipeline*.
+![](Figures/qiime2_wf.jpg){fig-align="center" width="824"}
+
+### Limpieza
+
+Aunque dentro de qiime se puede hacer la limpieza de los adaptadores, también podemos hacerlo por fuera con cutadapt.
+
+Vamos a crear el directorio de resultados de cutadapt
+
+``` bash
+mkdir -p results/01.cutadapt
+```
+
+``` bash
+
+out="results/01.cutadapt"
+
+for FILE in $(ls data/*.gz | sed 's/_.*//' | sed 's/data\///' | sort -u); do
+  cutadapt -m 200 --pair-filter any --no-indels \
+    -g CCTACGGGNGGCWGCAG -G GACTACHVGGGTATCTAATCC -Z -j 4 \
+    -o $out/"${FILE}_1.fastq.gz" -p $out/"${FILE}_2.fastq.gz" data/"${FILE}_R1.fastq.gz" data/"${FILE}_R2.fastq.gz"
+done
+```
+
+### Crear Manifest
+
+Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello ejecuta el script \`src/create_manifest.sh\`
+
+``` bash
+bash src/create_manifest.sh
+```
+
+El contenido es el siguiente:
+
+``` markdown
+#!/usr/bin/bash
+#Create manifest file
+
+cd results/01.cutadapt
+
+id=$(ls *.gz |  sed 's/_.*//g' | sort -u)
+
+echo -e "sample-id"",""absolute-filepath"",""direction" > ../../data/manifest.csv
+
+for sample in $id; do
+        source=$(awk -F"\t" -v sample="$sample" '$1 == sample {print $1}' ../../data/metadata.tsv)
+        r1=$(echo -e $sample"_1.fastq.gz"",""forward")
+        r2=$(echo -e $sample"_2.fastq.gz"",""reverse")
+        path=$(pwd)
+        echo -e $source","$path"/"$r1 >> ../../data/manifest.csv
+        echo -e $source","$path"/"$r2 >> ../../data/manifest.csv
+done
+```
+
+### Importar los datos
+
+Bien, ahora ya tenemos el archivo manifest que es necesario para importar a QIIME2. Vamos a hacerlo ... pero primero a crear el directorio de resultados de qiime.
+
+``` bash
+mkdir -p results/02.qiime
+```
+
+``` bash
+#importar data
+qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]'\
+ --input-path data/manifest.csv \
+ --output-path results/02.qiime/01.demux.qza\
+ --input-format 'PairedEndFastqManifestPhred33'
+```
+
+``` bash
+#convertir qza a qzv
+qiime demux summarize --i-data results/02.qiime/01.demux.qza --o-visualization results/02.qiime/01.demux.qzv
+```
+
+Descarga el archivo `qzv` en tu computadora y vizualizalo en la página [Qiime2view](https://view.qiime2.org/). Veras algo como esto:
+
+![](Figures/01.demux.png){width="892"}
+
+Ya que visualizamos la calidad y el número de lecturas que tienen las muestras, procederemos a eliminar el ruido y hacer el agrupamiento con DADA2.
+
+### Eliminación de ruido y agrupamiento con Dada2
+
+::: callout-tip
+## Discutamos
+
+Antes de comenzar el *denoising* , veamos la ayuda.
+:::
+
+``` bash
+qiime dada2 denoise-paired --i-demultiplexed-seqs --help
+```
+
+Como habrás notado, es necesario tomar decisiones basadas en la calidad de nuestras lecturas para definir los valores de truncado. Es muy importante dener en cuenta la longitud de las lecturas y del amplicón deseado para tener una idea de la longitud del sobrelape que se obtendría.
+
+Toma en cuenta lo siguiente:
+
+```         
+(longitud lectura Fordware) + (longitud lectura Reverse) − (longitud del amplicon) − 
+(longitud lectura Fordware − --p-trunc-len-f value) − (longitud lectura Reverse − --p-trunc-len-r value) 
+= sobrelape
+```
+
+Para hacer el *denoising* y agrupamiento con DADA2 ejecutemos lo siguiente:
+
+``` bash
+qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza  --p-trunc-len-f 280 --p-trunc-len-r 250  --o-representative-sequences results/02.qiime/03.rep-seqs_v1.qza --o-table results/02.qiime/03.feature-table_v1.qza --o-denoising-stats results/03.denoising-stats_v1.qza --p-n-threads 10
+```
+
+Veamos los estadísticos de lo que se pudo agrupar.
+
+``` bash
+qiime tools export --input-path results/03.denoising-stats_v1.qza --output-path results/03.denoising-stats_v1
+```
+
+::: callout-important
+## Ejercicio 1
+
+Reúnanse en equipos, revisen la ayuda, discutan y generen una versión 2 de *denoising*. Obtengan sus estadísticas, comparen los resultados y expongan sus conclusiones en la presentación que corresponde.
+
+<https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing>
+
+::: callout-tip
+## Tip
+
+Para comparar puedes correr la siguiente línea
+
+```         
+head results/02.qiime/03.denoising-stats_v*/stats.tsv
+```
+:::
+:::
+
+### Asignación taxonómica
+
+En qiime podemos hacer la anotación taxonómica usando diferentes aproximaciones. Nosotros usaremos `sklearn` para esto, en el taller usaremos una base datos ya entrenada para las regiones V3-V4. El código para que tú entrenes la base de datos de acuerdo a la región que te interesa lo puedes encontrar en [esta página](https://docs.qiime2.org/2024.2/tutorials/feature-classifier/). O en la página de QIIME suele estar una base ya entrenada para la región V4 que puedes descargar [aquí](https://docs.qiime2.org/2024.2/data-resources/).
+
+Vamos a hacer la asignación taxonómica:
+
+``` bash
+qiime feature-classifier classify-sklearn \
+  --i-classifier data/dbs/classifier_silva_138_trained.qza \
+  --i-reads results/02.qiime/03.rep-seqs_v1.qza \
+  --o-classification results/02.qiime/taxonomy.qza --p-n-jobs 10
+```
+
+Y podemos generar archivos para visualizar los resultados
+
+``` bash
+# Visualizar la taxonomía
+qiime metadata tabulate \
+  --m-input-file results/02.qiime/taxonomy.qza \
+  --o-visualization results/02.qiime/taxonomy.qzv
+```
+
+``` bash
+# Visualizar las secuencias representativas
+qiime feature-table tabulate-seqs \
+--i-data results/02.qiime/03.rep-seqs_v1.qza \
+--o-visualization results/02.qiime/03.rep-seqs_v1.qza.qzv
+```
+
+``` bash
+# visualizar la tabla de conteos
+qiime feature-table summarize \
+--i-table results/02.qiime/03.feature-table_v1.qza \
+--o-visualization results/02.qiime/03.feature-table_v1.qzv
+```
+
+Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qiime2view](https://view.qiime2.org/)
+
+Opcionalmente te dejamos un [link con scripts para hacer filtros subsecuentes](https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh), como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.
+
+### Visualicemos en R
+
+Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados ...
+
+Abre tu editor en Rstudio
+
+Importemos los datos de qiime a R como un objeto Phyloseq
+
+``` r
+library(phyloseq)
+library(qiime2R)
+
+#create phyloseq object
+
+ps <- qza_to_phyloseq(
+  features = "../results/04.qiime/ASV_table_filter_freq218_emc.qza",
+  #tree = "../results/04.qiime/rooted-tree-iqtree.qza",
+  taxonomy = "../results/04.qiime/taxonomy.qza",
+  metadata = "../data/metadata.tsv")
+```
+
+Obtengamos información del objeto phyloseq
+
+``` r
+library(devtools)
+library(microbiome)
+
+#check data
+microbiome::summarize_phyloseq(ps)
+```
+
+Hagamos un chequeo rápido del esfuerzo de muestreo
+
+``` r
+library(vegan)
+mat <- as(t(otu_table(ps)), "matrix")
+raremax <- min(rowSums(mat))
+
+system.time(rarecurve(mat, step = 1000, sample = raremax, 
+                                                  col = "purple4", label = TRUE))
+```
+
+Veamos el objeto phyloseq en un objeto Ampvis
+
+``` r
+library(ampvis2)
+library(dplyr)
+
+otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps3)@.Data),
+                               phyloseq::otu_table(ps3)@.Data,
+                               phyloseq::tax_table(ps3)@.Data,
+                               check.names = FALSE)
+meta_data_ampvis <- data.frame(phyloseq::sample_data(ps3),
+                               check.names = FALSE
+)
+# change index to SampleID
+meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "SampleID")
+# finalmente generamos el objeto ampvis
+av2 <- amp_load(otu_table_ampvis, meta_data_ampvis)
+```
+
+Visualicemos las abundancias en un heatmap
+
+``` r
+#heatmap
+Genus_av2_abundance_plot <- amp_heatmap(av2,
+            facet_by = "sampleID",
+            plot_values = TRUE,
+            plot_values_size = 4,
+            tax_show = 45,
+            tax_aggregate = "Genus",
+            tax_add = c("Kingdom", "Phylum"),
+            plot_legendbreaks = c(1, 5, 5))
+Genus_av2_abundance_plot
+```
+
+Diversidad alfa
+
+Diversidad beta
+
+### Recursos externos
+
+Si quieres profundizar en el análisis de amplicones te recomendamos visitar el canal de youtube y/o los cursos y asesorias de [microbioma-lab](https://microbioma-lab.com/).
