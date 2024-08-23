@@ -233,10 +233,27 @@ Importemos los datos de qiime a R como un objeto Phyloseq
 
 ``` r
 #cargar librerias e instalar si no esta
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(version = "3.19")
+
+library(BiocManager)
+
+BiocManager::install(c("IRanges", "S4Arrays", "SparseArray", "GenomicRanges", "SummarizedExperiment", "SingleCellExperiment", "TreeSummarizedExperiment"))
+
+devtools::install_github("jbisanz/qiime2R")
+
+
 library(devtools)
-#devtools::install_github("jbisanz/qiime2R")
-library(phyloseq)
+devtools::install_github("jbisanz/qiime2R")
+
+
 library(qiime2R)
+library(phyloseq)
+
+
+
 
 #crear objeto phyloseq
 ps <- qza_to_phyloseq(
@@ -253,13 +270,20 @@ library(microbiome)
 
 #check data
 microbiome::summarize_phyloseq(ps)
+
+#Delete singletons
+ps2 <- filter_taxa(ps, function(x) sum(x) > 2, TRUE)
+ps2
+
+#check
+microbiome::summarize_phyloseq(ps2)
 ```
 
 Hagamos un chequeo rápido del esfuerzo de muestreo
 
 ``` r
 library(vegan)
-mat <- as(t(otu_table(ps)), "matrix")
+mat <- as(t(otu_table(ps2)), "matrix")
 raremax <- min(rowSums(mat))
 
 system.time(rarecurve(mat, step = 1000, sample = raremax, 
@@ -272,11 +296,11 @@ Veamos el objeto phyloseq en un objeto Ampvis
 library(ampvis2)
 library(dplyr)
 
-otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps)@.Data),
-                               phyloseq::otu_table(ps)@.Data,
-                               phyloseq::tax_table(ps)@.Data,
+otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps2)@.Data),
+                               phyloseq::otu_table(ps2)@.Data,
+                               phyloseq::tax_table(ps2)@.Data,
                                check.names = FALSE)
-meta_data_ampvis <- data.frame(phyloseq::sample_data(ps),
+meta_data_ampvis <- data.frame(phyloseq::sample_data(ps2),
                                check.names = FALSE
 )
 # change index to SampleID
