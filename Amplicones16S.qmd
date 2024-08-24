@@ -16,7 +16,7 @@ En este taller vamos a usar Qiime2 con DADA2 para inferir las ASVs
 
 [DADA2](https://benjjneb.github.io/dada2/) es una herramienta para procesar secuencias de amplicones, corrige errores de secuenciación para obtener secuencias de variantes de amplicones exactas (ASVs). Sus pasos principales incluyen: filtrado y recorte de secuencias, aprendizaje del modelo de error, inferencia de secuencias, fusión de pares (si aplica), y eliminación de quimeras. Finalmente, las ASVs obtenidas son clasificadas taxonómicamente.
 
-[![](Figures/InferenciaASVs.png){width="938"}](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-283  https://resjournals.onlinelibrary.wiley.com/doi/10.1111/syen.12406)
+[![](Figures/InferenciaASVs.png){width="938"}](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-13-283%20https://resjournals.onlinelibrary.wiley.com/doi/10.1111/syen.12406)
 
 ### QIIME2
 
@@ -213,120 +213,116 @@ Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qii
 
 Opcionalmente te dejamos un [link con scripts para hacer filtros subsecuentes](https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh), como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.
 
-Exportemos a formato legible por R,
-
-``` bash
-qiime tools export --input-path results/02.qiime/03.feature-table_v1.qza --output-path results/02.qiime/exported-feature-table
-```
-
-``` bash
-qiime tools export --input-path results/02.qiime/taxonomy.qza --output-path results/02.qiime/exported-taxonomy
-```
-
 ### Visualicemos en R
 
-Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados ...
+Y ahora si viene lo divertido, vamos a visualizar nuestros resultados ...
 
-Abre tu editor en Rstudio
+Abre tu editor de Scripts en Rstudio
 
-Importemos los datos de qiime a R como un objeto Phyloseq
+::: callout-caution
+## Revisa tu ubicación
+
+Asegúrate de estar dentro del directorio `taller_amplicones_pozol`
 
 ``` r
-#cargar librerias e instalar si no esta
+setwd("/home/alumnoX/taller_metagenomica_pozol")
+```
+:::
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install(version = "3.19")
-
-library(BiocManager)
-
-BiocManager::install(c("IRanges", "S4Arrays", "SparseArray", "GenomicRanges", "SummarizedExperiment", "SingleCellExperiment", "TreeSummarizedExperiment"))
-
-devtools::install_github("jbisanz/qiime2R")
-
-
-library(devtools)
-devtools::install_github("jbisanz/qiime2R")
-
-
+``` r
+#cargar librerias
 library(qiime2R)
 library(phyloseq)
 
-
-
-
-#crear objeto phyloseq
+# crear objeto phyloseq
 ps <- qza_to_phyloseq(
   features = "results/02.qiime/03.feature-table_v1.qza",
   taxonomy = "results/02.qiime/taxonomy.qza",
   metadata = "data/metadata.tsv")
-```
 
-Obtengamos información del objeto phyloseq
+# veamos el objeto phyloseq
+ps
 
-``` r
+
+#obtengamos un resumen de los datos
 library(devtools)
 library(microbiome)
 
-#check data
 microbiome::summarize_phyloseq(ps)
 
-#Delete singletons
-ps2 <- filter_taxa(ps, function(x) sum(x) > 2, TRUE)
+#Remueve singletones
+ps2 <- filter_taxa(ps, function(x) sum(x) > 1, TRUE)
+
+# Revisemos el objeto despues de filtrar
 ps2
 
-#check
 microbiome::summarize_phyloseq(ps2)
-```
 
-Hagamos un chequeo rápido del esfuerzo de muestreo
-
-``` r
+# Curvas de muestreo
 library(vegan)
 mat <- as(t(otu_table(ps2)), "matrix")
 raremax <- min(rowSums(mat))
 
 system.time(rarecurve(mat, step = 1000, sample = raremax, 
-                                                  col = "purple4", label = TRUE))
-```
+                      col = "purple4", label = TRUE))
 
-Veamos el objeto phyloseq en un objeto Ampvis
-
-``` r
+# Abundancias
 library(ampvis2)
 library(dplyr)
 
+# Creamos un objeto Ampvis
+# extraer la otu_table
 otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps2)@.Data),
                                phyloseq::otu_table(ps2)@.Data,
                                phyloseq::tax_table(ps2)@.Data,
                                check.names = FALSE)
+# extraer el metadata
 meta_data_ampvis <- data.frame(phyloseq::sample_data(ps2),
-                               check.names = FALSE
-)
-# change index to SampleID
-meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "SampleID")
+                               check.names = FALSE)
+
+# change index to sample-id
+meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "sample-id")
+
 # finalmente generamos el objeto ampvis
 av2 <- amp_load(otu_table_ampvis, meta_data_ampvis)
-```
 
-Visualicemos las abundancias en un heatmap
-
-``` r
 #heatmap
 Genus_av2_abundance_plot <- amp_heatmap(av2,
-            facet_by = "sampleID",
-            plot_values = TRUE,
-            plot_values_size = 4,
-            tax_show = 20,
-            tax_aggregate = "Genus",
-            tax_add = c("Phylum"),
-            plot_legendbreaks = c(1, 5, 5))
+                                        plot_values = TRUE,
+                                        plot_values_size = 4,
+                                        tax_show = 25,
+                                        tax_aggregate = "Genus",
+                                        tax_add = c("Phylum"))
 Genus_av2_abundance_plot
+
+# Diversidad alfa
+
+alpha <- amp_alphadiv(
+  av2,
+  measure = c("uniqueotus","shannon", "simpson"),
+  richness = TRUE,
+  #rarefy = 20000,
+  plot  = TRUE,
+  plot_scatter = TRUE,
+  plot_group_by = "fermentation_time"
+)
+
+alpha
+
+# Ordenación
+
+pcoa <- amp_ordinate(
+  av2,
+  #filter_species = 0.01,
+  type = "pcoa",
+  distmeasure = "bray",
+  sample_color_by = "fermentation_time",
+  sample_colorframe = TRUE,
+  sample_colorframe_label = "fermentation_time"
+)
+
+pcoa
 ```
-
-Diversidad alfa
-
-Diversidad beta
 
 ### Recursos externos
 

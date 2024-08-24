@@ -211,7 +211,7 @@ Activa el ambiente de gtdbtk
 <p>Ahora si, vamos a correrlo</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.19.5</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nohup</span> gtdbtk classify_wf <span class="at">--genome_dir</span> results/10.gtdbtk/bins/ <span class="at">--out_dir</span> results/10.gtdbtk/ <span class="at">--cpus</span> 4 <span class="at">-x</span> fasta <span class="op">&gt;</span> gtdbtk.nohup <span class="kw">&amp;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gtdbtk</span> classify_wf <span class="at">--genome_dir</span> results/10.gtdbtk/bins/ <span class="at">--out_dir</span> results/10.gtdbtk/ <span class="at">--cpus</span> 4 <span class="at">-x</span> fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>No olvides desactivar el ambiente</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.</p>
