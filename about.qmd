@@ -10,7 +10,11 @@ about:
 bibliography: references.bib
 ---
 
-**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado. No se inocula y al final de su fermentación tiene alta diversidad microbiana.
+**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado.
+
+No se inocula y al final de su fermentación tiene alta diversidad microbiana.
+
+Se ha estudiado desde los años 70s y se sabe que es muy nutritivo, tiene un alto contenido de aminoácidos esenciales y es considerado como **prebiótico.**
 
 🧬🔊🦠 Imaginemos que se quiere impulsar la producción de esta bebida y para ello necesitan saber todo acerca de su naturaleza microbiana. Secuenciaron cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb.
 
@@ -19,8 +23,6 @@ Una importante industria alimenticia los contacta como **expertos en ecología m
 -   ¿Qué actores microbianos están presentes durante el proceso de fermentación?
 
 -   ¿Cómo ocurre la bioconversión del maíz durante la fermentación, quién participa y cómo lo hace? ¿Qué funciones metabólicas están ocurriendo?
-
--   ¿Hay potenciales patógenos?
 
 -   ¿Cambia la comunidad microbiana a lo largo del proceso?
 

@@ -146,7 +146,7 @@ Toma en cuenta lo siguiente:
 Para hacer el *denoising* y agrupamiento con DADA2 ejecutemos lo siguiente:
 
 ``` bash
-qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza  --p-trunc-len-f 280 --p-trunc-len-r 250  --o-representative-sequences results/02.qiime/03.rep-seqs_v1.qza --o-table results/02.qiime/03.feature-table_v1.qza --o-denoising-stats results/02.qiime/03.denoising-stats_v1.qza --p-n-threads 10
+qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza  --p-trunc-len-f 260 --p-trunc-len-r 200  --o-representative-sequences results/02.qiime/03.rep-seqs_v1.qza --o-table results/02.qiime/03.feature-table_v1.qza --o-denoising-stats results/02.qiime/03.denoising-stats_v1.qza --p-n-threads 10
 ```
 
 Veamos los estadísticos de lo que se pudo agrupar.
