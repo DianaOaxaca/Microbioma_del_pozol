@@ -19,8 +19,13 @@ title: "Preparemos todo para el proyecto"
 2.  Obten los datos y la estructura de tu directorio del proyecto corriendo lo siguiente:
 
 ``` bash
+# ve al $HOME
 cd
-cp -r /home/alumno1/pozol_data/taller_metagenomica_pozol
+# copia los directorios de trabajo
+# metagenómica
+cp -r /home/alumno1/taller_metagenomica_pozol
+# amplicones
+cp -r /home/alumno1/taller_amplicones_pozol
 ```
 
 3.  Entra al directorio del proyecto

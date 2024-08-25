@@ -13,7 +13,7 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: TallerMetagenomasSureste
+        text: TallerMetagenomasCBF2023-2024-1251
       - href: about.qmd
         text: El pozol
       - href: Project.qmd
