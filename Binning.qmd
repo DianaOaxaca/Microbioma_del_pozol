@@ -307,7 +307,7 @@ Refined_bin     Size(Kbp)       Source
 48hrs_7 557.49  48hrs_maxbin.006.fasta,metabat.1.fa,28990.fna
 ```
 
-Abre el archivo `src/sankey.R` o copia y pega este contenido en la consola de Rscript
+Copia y pega este contenido en la consola de Rscript
 
 ``` r
 # Cargar las librerias
@@ -316,7 +316,7 @@ library(networkD3)
 
 # revisa tu ubicación
 getwd()
-setwd("/home/alumno2/taller_metagenomica_pozol")
+setwd("/home/ELALUMNOQUEERES/taller_metagenomica_pozol")
 
 # Cargar los datos
 sankey_data <- read.csv("results/07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_sankey.csv")
@@ -369,14 +369,12 @@ Fasta_to_Contig2Bin.sh -i results/04.metabat/ -e fa > results/08.dastool/48hrs_m
 Fasta_to_Contig2Bin.sh -i results/05.maxbin/ -e fasta > results/08.dastool/48hrs_maxbin.dastool.tsv
 
 Fasta_to_Contig2Bin.sh -i results/06.vamb/48hrs/bins/ -e fna > results/08.dastool/48hrs_vamb.dastool.tsv
-
-Fasta_to_Contig2Bin.sh -i results/07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/ -e fasta > results/08.dastool/48hrs_binningrefined.dastool.tsv
 ```
 
 Ya que tenemos los archivos tsv podemos empezar con el refinamiento!! 🥳
 
 ``` bash
-DAS_Tool -i results/08.dastool/48hrs_metabat.dastool.tsv,results/08.dastool/48hrs_maxbin.dastool.tsv,results/08.dastool/48hrs_vamb.dastool.tsv,results/08.dastool/48hrs_binningrefined.dastool.tsv -l metabat,maxbin,vamb,binning_refined -c results/02.ensambles/48hrs.fasta -o results/08.dastool/48hrs -t 4 --write_bins
+DAS_Tool -i results/08.dastool/48hrs_metabat.dastool.tsv,results/08.dastool/48hrs_maxbin.dastool.tsv,results/08.dastool/48hrs_vamb.dastool.tsv -l metabat,maxbin,vamb -c results/02.ensambles/48hrs.fasta -o results/08.dastool/48hrs -t 4 --write_bins
 ```
 
 ### 

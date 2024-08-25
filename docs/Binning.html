@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">TallerMetagenomasSureste</span></a>
+ <span class="menu-text">TallerMetagenomasCBF2023-2024-1251</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./about.html" rel="" target="">
@@ -578,14 +578,14 @@ Otros programas para binning
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>48hrs_5 1185.25 48hrs_maxbin.001.fasta,metabat.11.fa,15732.fna</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>48hrs_6 1052.67 48hrs_maxbin.003.fasta,metabat.4.fa,15732.fna</span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>48hrs_7 557.49  48hrs_maxbin.006.fasta,metabat.1.fa,28990.fna</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Abre el archivo <code>src/sankey.R</code> o copia y pega este contenido en la consola de Rscript</p>
+<p>Copia y pega este contenido en la consola de Rscript</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar las librerias</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(networkD3)</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># revisa tu ubicación</span></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/home/alumno2/taller_metagenomica_pozol"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/home/ELALUMNOQUEERES/taller_metagenomica_pozol"</span>)</span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar los datos</span></span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>sankey_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"results/07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_sankey.csv"</span>)</span>
@@ -636,11 +636,9 @@ Otros programas para binning
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Fasta_to_Contig2Bin.sh</span> <span class="at">-i</span> results/05.maxbin/ <span class="at">-e</span> fasta <span class="op">&gt;</span> results/08.dastool/48hrs_maxbin.dastool.tsv</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Fasta_to_Contig2Bin.sh</span> <span class="at">-i</span> results/06.vamb/48hrs/bins/ <span class="at">-e</span> fna <span class="op">&gt;</span> results/08.dastool/48hrs_vamb.dastool.tsv</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Fasta_to_Contig2Bin.sh</span> <span class="at">-i</span> results/07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/ <span class="at">-e</span> fasta <span class="op">&gt;</span> results/08.dastool/48hrs_binningrefined.dastool.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Fasta_to_Contig2Bin.sh</span> <span class="at">-i</span> results/06.vamb/48hrs/bins/ <span class="at">-e</span> fna <span class="op">&gt;</span> results/08.dastool/48hrs_vamb.dastool.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Ya que tenemos los archivos tsv podemos empezar con el refinamiento!! 🥳</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">DAS_Tool</span> <span class="at">-i</span> results/08.dastool/48hrs_metabat.dastool.tsv,results/08.dastool/48hrs_maxbin.dastool.tsv,results/08.dastool/48hrs_vamb.dastool.tsv,results/08.dastool/48hrs_binningrefined.dastool.tsv <span class="at">-l</span> metabat,maxbin,vamb,binning_refined <span class="at">-c</span> results/02.ensambles/48hrs.fasta <span class="at">-o</span> results/08.dastool/48hrs <span class="at">-t</span> 4 <span class="at">--write_bins</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">DAS_Tool</span> <span class="at">-i</span> results/08.dastool/48hrs_metabat.dastool.tsv,results/08.dastool/48hrs_maxbin.dastool.tsv,results/08.dastool/48hrs_vamb.dastool.tsv <span class="at">-l</span> metabat,maxbin,vamb <span class="at">-c</span> results/02.ensambles/48hrs.fasta <span class="at">-o</span> results/08.dastool/48hrs <span class="at">-t</span> 4 <span class="at">--write_bins</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="section-1" class="level3">
 <h3 class="anchored" data-anchor-id="section-1"></h3>
