@@ -207,8 +207,6 @@ qiime feature-table summarize \
 
 Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qiime2view](https://view.qiime2.org/)
 
-Opcionalmente te dejamos un [link con scripts para hacer filtros subsecuentes](https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh), como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.
-
 Exportemos a formato legible por R,
 
 ``` bash
@@ -223,75 +221,55 @@ qiime tools export --input-path results/02.qiime/taxonomy.qza --output-path resu
 
 Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados ...
 
-Abre tu editor en Rstudio
-
-Importemos los datos de qiime a R como un objeto Phyloseq
+Abre tu editor de Scripts en Rstudio y pega el siguiente código:
 
 ``` r
-#cargar librerias e instalar si no esta
+## Recuerda situarte en el directorio taller_amplicones_pozol
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install(version = "3.19")
+#setwd("/home/alumnoXX/taller_amplicones_pozol")
 
-library(BiocManager)
-
-BiocManager::install(c("IRanges", "S4Arrays", "SparseArray", "GenomicRanges", "SummarizedExperiment", "SingleCellExperiment", "TreeSummarizedExperiment"))
-
-devtools::install_github("jbisanz/qiime2R")
-
-
-library(devtools)
-devtools::install_github("jbisanz/qiime2R")
-
+#cargar librerias
 
 library(qiime2R)
 library(phyloseq)
-
-
-
 
 #crear objeto phyloseq
 ps <- qza_to_phyloseq(
   features = "results/02.qiime/03.feature-table_v1.qza",
   taxonomy = "results/02.qiime/taxonomy.qza",
   metadata = "data/metadata.tsv")
-```
+ps
 
-Obtengamos información del objeto phyloseq
-
-``` r
+#explorar el objeto phyloseq con microbiome
 library(devtools)
 library(microbiome)
 
-#check data
+#explorar
 microbiome::summarize_phyloseq(ps)
 
-#Delete singletons
-ps2 <- filter_taxa(ps, function(x) sum(x) > 2, TRUE)
+#Remover singletones
+ps2 <- filter_taxa(ps, function(x) sum(x) > 1, TRUE)
+
+#checar el objeto después de la remoción
 ps2
 
-#check
+#checar con microbiome
 microbiome::summarize_phyloseq(ps2)
-```
 
-Hagamos un chequeo rápido del esfuerzo de muestreo
-
-``` r
+# explorar curvas de esfuerzo de secuenciación
 library(vegan)
 mat <- as(t(otu_table(ps2)), "matrix")
 raremax <- min(rowSums(mat))
 
 system.time(rarecurve(mat, step = 1000, sample = raremax, 
-                                                  col = "purple4", label = TRUE))
-```
+                      col = "purple4", label = TRUE))
 
-Veamos el objeto phyloseq en un objeto Ampvis
-
-``` r
+#Explorar las abundancias
 library(ampvis2)
 library(dplyr)
 
+#crear el objeto ampvis
+#extraer los datos del objeto phyloseq
 otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps2)@.Data),
                                phyloseq::otu_table(ps2)@.Data,
                                phyloseq::tax_table(ps2)@.Data,
@@ -299,31 +277,52 @@ otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps2)@.Data),
 meta_data_ampvis <- data.frame(phyloseq::sample_data(ps2),
                                check.names = FALSE
 )
-# change index to SampleID
-meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "SampleID")
-# finalmente generamos el objeto ampvis
+
+meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "sample-id")
+
+#Generamos el objeto ampvis
 av2 <- amp_load(otu_table_ampvis, meta_data_ampvis)
-```
 
-Visualicemos las abundancias en un heatmap
+# Generar un heatmap con las abundancias 
 
-``` r
-#heatmap
 Genus_av2_abundance_plot <- amp_heatmap(av2,
-            facet_by = "sample-id",
-            plot_values = TRUE,
-            plot_values_size = 4,
-            tax_show = 20,
-            tax_aggregate = "Genus",
-            tax_add = c("Phylum"),
-            plot_legendbreaks = c(1, 5, 5))
+                                        plot_values = TRUE,
+                                        plot_values_size = 4,
+                                        tax_show = 25,
+                                        tax_aggregate = "Genus",
+                                        tax_add = c("Phylum"))
 Genus_av2_abundance_plot
+
+# plotear la alfa diversidad
+
+alpha <- amp_alphadiv(
+  av2,
+  measure = c("uniqueotus","shannon", "simpson"),
+  richness = TRUE,
+  #rarefy = 20000,
+  plot  = TRUE,
+  plot_scatter = TRUE,
+  plot_group_by = "fermentation_time"
+)
+
+alpha
+
+# Gráfica de ordenación
+pcoa <- amp_ordinate(
+  av2,
+  #filter_species = 0.01,
+  type = "pcoa",
+  distmeasure = "bray",
+  sample_color_by = "fermentation_time",
+  sample_colorframe = TRUE,
+  sample_colorframe_label = "fermentation_time"
+) 
+
+pcoa
 ```
 
-Diversidad alfa
+Este es un **ejemplo** de como se ve el plot de abundancias:
 
-Diversidad beta
+![](Figures/Abundancias_amplicones.png){fig-align="center" width="956"}
 
-### Recursos externos
-
-Si quieres profundizar en el análisis de amplicones te recomendamos visitar el canal de youtube y/o los cursos y asesorias de [microbioma-lab](https://microbioma-lab.com/).
+Cómo notarás en el heatmap, la tabla de ASVs aún tienen cloroplastos y mitocondria. Es necesario removerlos en la tabla y en las secuencias. Te dejamos un link de [Microbiome Helper](https://github.com/LangilleLab/microbiome_helper/wiki)que tiene lineas de código para eliminar secuencias que son potenciales artefactos, remover cloroplastos, mitocondria o secuencias no asignadas.
