@@ -4,6 +4,8 @@ title: "Recursos extra"
 
 ### Metagenómica
 
+-   Sitio web de [Anvio](https://anvio.org/), canal de [YouTube](https://www.youtube.com/watch?v=MqD4aN1p1qA&t=344s) y canal de [DIscord.](https://discord.gg/C6He6mSNY4)
+
 ### Amplicones
 
 Si quieres profundizar en el análisis de amplicones te recomendamos visitar
