@@ -22,19 +22,17 @@ En este taller vamos a usar Qiime2 con DADA2 para inferir las ASVs
 
 **Qiime2** (Quantitative Insights Into Microbial Ecology) es un *pipeline* desarrollado para el análisis de metataxonomía ([Bolyen et al., 2019](https://www.nature.com/articles/s41587-019-0209-9)). Contiene herramientas para limpiar secuencias, agrupar, asignar taxonomía, reconstruir filogenias, inferir métricas de diversidad, abundancia diferencial, etc. Es de código abierto, posee una [interfaz gráfica](https://view.qiime2.org/) amigable, [mucha documentación](https://docs.qiime2.org/2022.11/plugins/available/diversity/), [tutoriales](https://docs.qiime2.org/2023.7/tutorials/) y [foros de ayuda](https://forum.qiime2.org/).
 
-![](Figures/qiime2_wf.jpg){fig-align="center" width="824"}
+![](Figures/qiime2_wf.png){fig-align="center" width="1036"}
 
-Obtengamos los datos:
+Y ahora si
+
+Sitúate en el directorio de trabajo del taller de amplicones
 
 ``` bash
 # ve a tu $HOME
 cd
-# crea el directorio para amplicones y un subdirectorio src
-mkdir -p taller_amplicones_pozol/src
 # entra al directorio de amplicones
 cd taller_amplicones_pozol
-# copia los datos
-cp -r /home/alumno1/taller_amplicones_pozol/data .
 ```
 
 ### Limpieza
@@ -60,15 +58,15 @@ done
 
 ### Crear Manifest
 
-Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello crea el script \`src/create_manifest.sh\`
+Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para esto necesitamos crear un archivo manifest con la información de la ubicación de los datos a analizar, para ello corre el script \`src/create_manifest.sh\`
 
 ``` bash
-nano src/create_manifest.sh
+bash src/create_manifest.sh
 ```
 
-Copia y pega el siguiente contenido en \`src/create_manifest.sh\` :
+El contenido del script \`src/create_manifest.sh\` :
 
-``` bash
+``` {.bash collapse="true" title="create_manifest.sh:"}
 #!/usr/bin/bash
 #Create manifest file
 
@@ -86,12 +84,6 @@ for sample in $id; do
         echo -e $source","$path"/"$r1 >> ../../data/manifest.csv
         echo -e $source","$path"/"$r2 >> ../../data/manifest.csv
 done
-```
-
-Ejecuta el script:
-
-``` bash
-bash src/create_manifest.sh
 ```
 
 ### Importar los datos
@@ -323,7 +315,3 @@ pcoa <- amp_ordinate(
 
 pcoa
 ```
-
-### Recursos externos
-
-Si quieres profundizar en el análisis de amplicones te recomendamos visitar el canal de youtube y/o los cursos y asesorias de [microbioma-lab](https://microbioma-lab.com/).

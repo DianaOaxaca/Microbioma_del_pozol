@@ -18,13 +18,13 @@ conda activate gtdbtk-2.1.1
 ```
 :::
 
-Crea el directorio de resultados para gtdbtk, copia y renombra los bins:
+El directorio de resultados para gtdbtk ya lo tienes en tu carpeta de resultados. Para colocar los *bins* refinados y renombrados ejecuta el script \`src/copiar_renombrarbins.sh\` :
 
 ``` bash
  bash src/copiar_renombrarbins.sh
 ```
 
-Ahora si, vamos a correrlo
+Ahora si, vamos a correr gtdbtk
 
 ``` bash
 pip install numpy==1.19.5
@@ -37,6 +37,12 @@ No olvides desactivar el ambiente
 ``` bash
 conda deactivate
 ```
+
+::: callout-caution
+## Resultado de GTDB-Tk
+
+Si gtdbtk está tomando mucho tiempo puedes parar el proceso con `ctrl + C` en tu teclado. El resultado final se encuentra en el directorio y archo: `results/10.gtdbtk/gtdbtk.bac120.summary.tsv` que se copió desde el inicio.
+:::
 
 Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.
 

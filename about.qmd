@@ -10,13 +10,23 @@ about:
 bibliography: references.bib
 ---
 
-**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado.
+**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado, de importancia económica y cultural, se consume desde tiempos prehispánicos y se ha estudiado desde los años 70s.
 
-No se inocula y al final de su fermentación tiene alta diversidad microbiana.
+Algunos puntos importantes que conocemos son:
 
-Se ha estudiado desde los años 70s y se sabe que es muy nutritivo, tiene un alto contenido de aminoácidos esenciales y es considerado como **prebiótico.**
+<FONT COLOR="blue">
 
-🧬🔊🦠 Imaginemos que se quiere impulsar la producción de esta bebida y para ello necesitan saber todo acerca de su naturaleza microbiana. Secuenciaron cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb.
+-   No se inocula y al final de su fermentación tiene alta diversidad microbiana.
+
+-   Es muy nutritivo, tiene un alto contenido de aminoácidos esenciales.
+
+-   Es considerado como **prebiótico,** contiene fibras solubles y microorganismos benéficos para la salud intestinal humana**.**
+
+</FONT>
+
+------------------------------------------------------------------------
+
+🧬🔊🦠 Imaginemos que se quiere impulsar la producción de esta bebida y para ello necesitan saber todo acerca de su naturaleza microbiana.
 
 Una importante industria alimenticia los contacta como **expertos en ecología microbiana** y les pide ayuda para descubrir los siguientes puntos:
 
@@ -25,6 +35,10 @@ Una importante industria alimenticia los contacta como **expertos en ecología m
 -   ¿Cómo ocurre la bioconversión del maíz durante la fermentación, quién participa y cómo lo hace? ¿Qué funciones metabólicas están ocurriendo?
 
 -   ¿Cambia la comunidad microbiana a lo largo del proceso?
+
+La empresa secuenció cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb.
+
+------------------------------------------------------------------------
 
 ::: callout-tip
 ## Importante

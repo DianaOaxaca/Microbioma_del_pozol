@@ -70,6 +70,8 @@ Antes de comenzar, reúnete con tu equipo y juntos
 La liga de drive para ir trabajando durante el taller es esta: <https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing>
 :::
 
+### Por si te pierdes
+
 Sólo por si te pierdes
 
 ::: callout-tip
@@ -81,6 +83,8 @@ Si en algún momento te pierdes entre directorios, puedes regresar al espacio pr
 cd && cd taller_metagenomica_pozol/
 ```
 :::
+
+Ahora si, vamos a agrupar los contigs del metaensamble en *bins* ...
 
 ### Metabat2
 
@@ -233,13 +237,17 @@ Para hacer esta evaluación, CheckM utiliza una serie de herramientas: `tree` or
 
 En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo, es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.
 
-Te dejamos la siguiente línea para que la uses en tus proyectos, además, en [este repositorio](https://github.com/DianaOaxaca/03.Analisis_de_metagenomas) encontrarás los scripts que pueden ser útiles para extraer los bins que cumplan la calidad que buscas:
+Te dejamos la siguiente línea para que la uses en tus proyectos.
 
 ``` bash
 #ejemplo de como correrlo con los bins de vamb
 #se debe activar el ambiente metagenomics
 #checkm lineage_wf results/06.vamb/48hrs/bins results/checkm/ -x fna -t 4  -f results/checkm/checkm_vamb_bins.txt
 ```
+
+Y una captura de ejemplo de como se ve la salida de CheckM:
+
+![](Figures/checkm_example.png){fig-align="center" width="828"}
 
 Y ahora si, a refinar los *bins* ... 🥳
 
@@ -387,13 +395,21 @@ La desreplicación es el proceso de identificar conjuntos de genomas que son "ig
 
 [![dRep](Figures/dRep.png){fig-align="center" width="423"}](https://drep.readthedocs.io/en/latest/overview.html)
 
+Ya que tenemos los resultados de los dos refinadores ejecutaremos dRep para desreplicar y seleccionar el mejor representante de cada *bin*.
+
+Primero vamos a crear el directorio de resultados para dRep.
+
 ``` bash
 mkdir -p results/09.drep/bins
 ```
 
+Y entraremos al directorio bins dentro del directorio de resultados para colocar los bins que queremos comparar. En este caso los generados por ambos refinadores.
+
 ``` bash
 cd results/09.drep/bins/
 ```
+
+Con las siguientes lineas podemos copiar los bins en este directorio:
 
 ``` bash
 for i in $(ls ../../08.dastool/48hrs_DASTool_bins/*.fa) ; do name=$(basename $i .fa); cp $i $name".fasta" ; done
@@ -401,9 +417,13 @@ for i in $(ls ../../08.dastool/48hrs_DASTool_bins/*.fa) ; do name=$(basename $i 
 cp ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/*.fasta .
 ```
 
+Ya que los copiamos, regresemos al directorio principal.
+
 ``` bash
 cd && cd taller_metagenomica_pozol/
 ```
+
+Y ahora si, vamos a correr dRep ...
 
 ``` bash
 
@@ -411,11 +431,37 @@ export PATH=/miniconda3/envs/metagenomics/bin:$PATH
 dRep dereplicate results/09.drep/ -d -comp 50 -con 10 --SkipSecondary -g results/09.drep/bins/*.fasta
 ```
 
+Este es uno de los plots generados por dRep, que representa los mejores bins desreplicados.
+
 ![dRepWinningGenomes](Figures/09.dRepWinningGenomes.png){fig-align="center"}
+
+Vamos a desactivar el ambiente de dRep
 
 ``` bash
 conda deactivate
 ```
+
+::: callout-important
+## Para reflexionar
+
+Qué harías si antes de desreplicar tienes un bin que tiene 98 % de completitud y 11 % de contaminació. dRep en automático lo descartaría.
+
+Propondrías alguna manera para quedarte con este bin y curarlo para reducir su contaminación?
+
+Por suerte hay más programas que pueden ayudarnos a curar nuestros bins manualmente, una herramienta útil para esto es [**mmgenome2**](https://kasperskytte.github.io/mmgenome2/articles/mmgenome2.html)
+:::
+
+Para tomar en consideración:
+
+::: callout-tip
+## Tip
+
+Ya que tenemos los *bins* refinados y desreplicados opcionalmente podrías reensamblarlos. La manera sería mapear las lecturas de toda la muestra a los *bins* finales y con las lecturas mapeadas y el *bin* generar un ensamble genómico para cada uno. Con esta aproximación se genera un MAG más pulido y la contaminación se reduce.
+
+Aunque en muchos reportes verás que los autores reensamblan sus MAGs, en otros no lo hacen y no hacerlo no está mal, hacerlo mejora la calidad.
+:::
+
+Ahora te toca a tí
 
 ::: callout-warning
 ## Ejercicio 2

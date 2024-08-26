@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Microbioma del pozol - Asignación taxonómica</title>
+<title>Microbioma del pozol - Créditos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -132,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">02.MAGs</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./gtdbtk.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./gtdbtk.html" rel="" target="">
  <span class="menu-text">03.Taxonomía</span></a>
   </li>  
   <li class="nav-item">
@@ -148,7 +114,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Recursos extra</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Creditos.html" rel="" target="">
+    <a class="nav-link active" href="./Creditos.html" rel="" target="" aria-current="page">
  <span class="menu-text">Créditos</span></a>
   </li>  
 </ul>
@@ -163,20 +129,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#gtdb-tk" id="toc-gtdb-tk" class="nav-link active" data-scroll-target="#gtdb-tk">GTDB-tk</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Asignación taxonómica</h1>
+<h1 class="title">Créditos</h1>
 </div>
 
 
@@ -191,97 +151,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="gtdb-tk" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="gtdb-tk">GTDB-tk</h3>
-<p>GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos <a href="https://gtdb.ecogenomic.org/">GTDB</a> (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.</p>
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="Figures/GTDB-tk_worflow.png" class="img-fluid figure-img" width="444"></p>
-<figcaption class="figure-caption margin-caption">GTDB-tk Workflow</figcaption>
+<div class="quarto-figure quarto-figure-left">
+<figure class="figure">
+<p><img src="Figures/CONAHCYT.png" class="img-fluid figure-img" width="186"></p>
 </figure>
 </div>
-<p>Recordemos que ya tenemos un set de <em>bins</em> refinados y desreplicados. Ahora vamos a asignarles identidad taxonómica, para ello vamos a correr GTDB-tk</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Activa el ambiente de gtdbtk
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate gtdbtk-2.1.1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-<p>El directorio de resultados para gtdbtk ya lo tienes en tu carpeta de resultados. Para colocar los <em>bins</em> refinados y renombrados ejecuta el script `src/copiar_renombrarbins.sh` :</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">bash</span> src/copiar_renombrarbins.sh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Ahora si, vamos a correr gtdbtk</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install numpy==1.19.5</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gtdbtk</span> classify_wf <span class="at">--genome_dir</span> results/10.gtdbtk/bins/ <span class="at">--out_dir</span> results/10.gtdbtk/ <span class="at">--cpus</span> 4 <span class="at">-x</span> fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>No olvides desactivar el ambiente</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Resultado de GTDB-Tk
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Si gtdbtk está tomando mucho tiempo puedes parar el proceso con <code>ctrl + C</code> en tu teclado. El resultado final se encuentra en el directorio y archo: <code>results/10.gtdbtk/gtdbtk.bac120.summary.tsv</code> que se copió desde el inicio.</p>
-</div>
-</div>
-<p>Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>GTDBK <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"results/10.gtdbtk/gtdbtk.bac120.summary.tsv"</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">na.strings =</span> <span class="st">""</span>, <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#El archivo contiene información sobre la clasificación taxonómica de los bins.</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Continuamos limpiando y transformando los datos:</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>pozol_gtdbtk <span class="ot">&lt;-</span> GTDBK <span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(user_genome, classification) <span class="sc">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(classification, <span class="fu">c</span>(<span class="st">"Domain"</span>, <span class="st">"Phylum"</span>, <span class="st">"Class"</span>, <span class="st">"Order"</span>, <span class="st">"Family"</span>, <span class="st">"Genus"</span>, <span class="st">"Species"</span>), <span class="at">sep =</span> <span class="st">";"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Bin_name =</span> user_genome) <span class="sc">%&gt;%</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unite</span>(Bin_name_2, <span class="fu">c</span>(<span class="st">"Bin_name"</span>, <span class="st">"Phylum"</span>), <span class="at">remove =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Bin_name, Domain, Phylum, Class, Order, Family, Genus, Species)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#Guardamos los datos en un archivo de metadatos:</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(pozol_gtdbtk, <span class="at">file =</span> <span class="st">"results/10.gtdbtk/Metadatos.txt"</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">col.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualización de Datos Creamos un gráfico de barras  que muestra la distribución taxonómica de los bins:</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>GTDBtk_barplot <span class="ot">&lt;-</span> pozol_gtdbtk <span class="sc">%&gt;%</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Phylum, Genus) <span class="sc">%&gt;%</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Number_of_MAGs =</span> n) <span class="sc">%&gt;%</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Phylum, <span class="at">y =</span> Number_of_MAGs, <span class="at">fill =</span> Genus)) <span class="sc">+</span> </span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="fu">position_dodge</span>()) <span class="sc">+</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>GTDBtk_barplot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Discusión
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En equipos revisen los resultados generados por GTDB-tk y propongan un plan para mejorar la identificación taxonómica, qué harían para darle más soporte a estos resultados?</p>
-</div>
-</div>
+<p>El contenido de esta página fue creado como parte del proyecto <code>Ciencia de Frontera CBF2023-2024-1251</code></p>
+<p><strong>Autoras</strong>: Diana Hernández Oaxaca <a href="https://github.com/DianaOaxaca">@DianaOaxaca</a> y Mirna Rosas Vázquez Landa <a href="https://github.com/mirnavazquez">@MirnaVazquez</a> .</p>
+<p><strong>Agradecimientos:</strong></p>
+<ul>
+<li><p>Todos los miembros del laboratorio <a href="https://github.com/landalab0">LandaLab</a> del <a href="https://www.icmyl.unam.mx/es/quienes_somos/personal_academico/vazquez-rosas-landa-mirna">Departamento</a> de Ecología Molecular y genómica poblacional del ICMyL de la UNAM liderado por la Dra. Mirna Rosas Vázquez Landa por la sugerencias a la mejora de este tutorial.</p></li>
+<li><p>Al M. en C. <a href="https://www.ibt.unam.mx/perfil/3986/mc-rafael-lopez-sanchez">Rafael López Sánchez</a>, por donar los datos de metagenómica del pozol libres de maíz y por revisar el material del taller.</p></li>
+<li><p>A la <a href="https://matmor.unam.mx/es/personal/investigadores/nselem">Dra. Nelly Selém</a> por brindar apoyo y acceso al servidor de trabajo.</p></li>
+<li><p>Al M. en C. <a href="https://www.matmor.unam.mx/es/personal/tecnico">Luis Gerardo Tejero Gómez</a> de la unidad de computo del Centro de Ciencias Matemática de la UNAM. Por su invaluable apoyo en la instalación y soporte de las herramientas usadas en este taller.</p></li>
+</ul>
+<hr>
+<p>El material de esta práctica inicialmente se preparó para los Talleres Internacionales de Bioinformática (<strong>TIB2022</strong>) organizados por la Sociedad Mexicana de Bioinformática (SMB) y la Comunidad de Desarrollo de Software Bioinformático (<strong>CDSB</strong>). Se ha usado en talleres intersemestrales del Instituto de Ciencias del Mar y Limnología (<strong>ICMyL</strong>) de la <strong>UNAM</strong>, el tópico de posgrado <strong>Hackeando las comunidades microbianas</strong>. Cursos intensivos de posgrado del <strong>INECOL</strong> yel taller de metagenómica de la Red Mexicana de Bioinformática <strong>RMB</strong> organizado en el <strong>CIBNOR Junio 2024</strong>. El material se ha ido modificando con el tiempo y sigue en desarrollo.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,0 +1,23 @@
+---
+title: "Créditos"
+---
+
+![](Figures/CONAHCYT.png){fig-align="left" width="186"}
+
+El contenido de esta página fue creado como parte del proyecto `Ciencia de Frontera CBF2023-2024-1251` liderado por la **Dra. Mirna Rosas Vázquez Landa.**
+
+**Autoras**: Diana Hernández Oaxaca [\@DianaOaxaca](https://github.com/DianaOaxaca) y Mirna Rosas Vázquez Landa [\@MirnaVazquez](https://github.com/mirnavazquez) .
+
+**Agradecimientos:**
+
+-   Todos los miembros del laboratorio [LandaLab](https://github.com/landalab0) del [Departamento](https://www.icmyl.unam.mx/es/quienes_somos/personal_academico/vazquez-rosas-landa-mirna) de Ecología Molecular y genómica poblacional del ICMyL de la UNAM, por la sugerencias a la mejora de este tutorial.
+
+-   Al M. en C. [Rafael López Sánchez](https://www.ibt.unam.mx/perfil/3986/mc-rafael-lopez-sanchez), por donar los datos de metagenómica del pozol libres de maíz y por revisar el material del taller.
+
+-   A la [Dra. Nelly Selém](https://matmor.unam.mx/es/personal/investigadores/nselem) por brindar apoyo y acceso al servidor de trabajo.
+
+-   Al M. en C. [Luis Gerardo Tejero Gómez](https://www.matmor.unam.mx/es/personal/tecnico) de la unidad de computo del Centro de Ciencias Matemática de la UNAM. Por su invaluable apoyo en la instalación y soporte de las herramientas usadas en este taller.
+
+------------------------------------------------------------------------
+
+El material de esta práctica inicialmente se preparó para los Talleres Internacionales de Bioinformática (**TIB2022**) organizados por la Sociedad Mexicana de Bioinformática (SMB) y la Comunidad de Desarrollo de Software Bioinformático (**CDSB**). Se ha usado en talleres intersemestrales del Instituto de Ciencias del Mar y Limnología (**ICMyL**) de la **UNAM**, el tópico de posgrado **Hackeando las comunidades microbianas**. Cursos intensivos de posgrado del **INECOL** yel taller de metagenómica de la Red Mexicana de Bioinformática **RMB** organizado en el **CIBNOR Junio 2024**. El material se ha ido modificando con el tiempo y sigue en desarrollo.

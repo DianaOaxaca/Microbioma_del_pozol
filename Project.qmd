@@ -44,6 +44,8 @@ cd && cd taller_metagenomica_pozol/
 ```
 :::
 
+------------------------------------------------------------------------
+
 <p align="justify">
 
 <FONT COLOR="darkblue">La presente práctica sólo es una representación del flujo de trabajo para el análisis metagenómico, sin embargo, **no sustituye los manuales** de cada programa y el flujo puede variar dependiendo del tipo de datos y pregunta de investigación, de hecho para fines del taller, con frecuencia se utilizan las lineas de comando más simples para eficientar tiempo y recursos, tómalo en cuenta.</FONT>

@@ -143,6 +143,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./Amplicones16S.html" rel="" target="">
  <span class="menu-text">05.Amplicones16S</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Recursos_extra.html" rel="" target="">
+ <span class="menu-text">Recursos extra</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./Creditos.html" rel="" target="">
+ <span class="menu-text">Créditos</span></a>
+  </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
 </div>
@@ -162,6 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#binning" id="toc-binning" class="nav-link active" data-scroll-target="#binning">Binning</a>
   <ul class="collapse">
   <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#por-si-te-pierdes" id="toc-por-si-te-pierdes" class="nav-link" data-scroll-target="#por-si-te-pierdes">Por si te pierdes</a></li>
   <li><a href="#metabat2" id="toc-metabat2" class="nav-link" data-scroll-target="#metabat2">Metabat2</a></li>
   <li><a href="#maxbin2" id="toc-maxbin2" class="nav-link" data-scroll-target="#maxbin2">MaxBin2</a></li>
   <li><a href="#vamb" id="toc-vamb" class="nav-link" data-scroll-target="#vamb">Vamb</a></li>
@@ -278,6 +287,9 @@ Ejercicio 1
 <p>La liga de drive para ir trabajando durante el taller es esta: <a href="https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing" class="uri">https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing</a></p>
 </div>
 </div>
+</section>
+<section id="por-si-te-pierdes" class="level3">
+<h3 class="anchored" data-anchor-id="por-si-te-pierdes">Por si te pierdes</h3>
 <p>Sólo por si te pierdes</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -293,6 +305,7 @@ Directorio de trabajo
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> taller_metagenomica_pozol/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p>Ahora si, vamos a agrupar los contigs del metaensamble en <em>bins</em> …</p>
 </section>
 <section id="metabat2" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="metabat2">Metabat2</h3>
@@ -529,10 +542,16 @@ Otros programas para binning
 </figure>
 </div>
 <p>En este taller no vamos a correr CheckM porque los programas de refinamiento que usaremos ya lo corren de forma interna, sin embargo, es útil correrlo para tener una idea clara sobre la calidad de los bins que obtengamos.</p>
-<p>Te dejamos la siguiente línea para que la uses en tus proyectos, además, en <a href="https://github.com/DianaOaxaca/03.Analisis_de_metagenomas">este repositorio</a> encontrarás los scripts que pueden ser útiles para extraer los bins que cumplan la calidad que buscas:</p>
+<p>Te dejamos la siguiente línea para que la uses en tus proyectos.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ejemplo de como correrlo con los bins de vamb</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#se debe activar el ambiente metagenomics</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#checkm lineage_wf results/06.vamb/48hrs/bins results/checkm/ -x fna -t 4  -f results/checkm/checkm_vamb_bins.txt</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y una captura de ejemplo de como se ve la salida de CheckM:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Figures/checkm_example.png" class="img-fluid figure-img" width="828"></p>
+</figure>
+</div>
 <p>Y ahora si, a refinar los <em>bins</em> … 🥳</p>
 </section>
 <section id="binning_refiner" class="level3 page-columns page-full">
@@ -655,22 +674,61 @@ Otros programas para binning
 <figcaption class="figure-caption margin-caption">dRep</figcaption>
 </figure>
 </div>
+<p>Ya que tenemos los resultados de los dos refinadores ejecutaremos dRep para desreplicar y seleccionar el mejor representante de cada <em>bin</em>.</p>
+<p>Primero vamos a crear el directorio de resultados para dRep.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> results/09.drep/bins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y entraremos al directorio bins dentro del directorio de resultados para colocar los bins que queremos comparar. En este caso los generados por ambos refinadores.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> results/09.drep/bins/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Con las siguientes lineas podemos copiar los bins en este directorio:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="va">$(</span><span class="fu">ls</span> ../../08.dastool/48hrs_DASTool_bins/<span class="pp">*</span>.fa<span class="va">)</span> <span class="kw">;</span> <span class="cf">do</span> <span class="va">name</span><span class="op">=</span><span class="va">$(</span><span class="fu">basename</span> <span class="va">$i</span> .fa<span class="va">)</span><span class="kw">;</span> <span class="fu">cp</span> <span class="va">$i</span> <span class="va">$name</span><span class="st">".fasta"</span> <span class="kw">;</span> <span class="cf">done</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ../../07.binning_refiner/48hrs_Binning_refiner_outputs/48hrs_refined_bins/<span class="pp">*</span>.fasta .</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Ya que los copiamos, regresemos al directorio principal.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> taller_metagenomica_pozol/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Y ahora si, vamos a correr dRep …</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span>/miniconda3/envs/metagenomics/bin:<span class="va">$PATH</span></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="ex">dRep</span> dereplicate results/09.drep/ <span class="at">-d</span> <span class="at">-comp</span> 50 <span class="at">-con</span> 10 <span class="at">--SkipSecondary</span> <span class="at">-g</span> results/09.drep/bins/<span class="pp">*</span>.fasta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Este es uno de los plots generados por dRep, que representa los mejores bins desreplicados.</p>
 <div class="quarto-figure quarto-figure-center page-columns page-full">
 <figure class="figure page-columns page-full">
 <p><img src="Figures/09.dRepWinningGenomes.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption margin-caption">dRepWinningGenomes</figcaption>
 </figure>
 </div>
+<p>Vamos a desactivar el ambiente de dRep</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> deactivate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Para reflexionar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Qué harías si antes de desreplicar tienes un bin que tiene 98 % de completitud y 11 % de contaminació. dRep en automático lo descartaría.</p>
+<p>Propondrías alguna manera para quedarte con este bin y curarlo para reducir su contaminación?</p>
+<p>Por suerte hay más programas que pueden ayudarnos a curar nuestros bins manualmente, una herramienta útil para esto es <a href="https://kasperskytte.github.io/mmgenome2/articles/mmgenome2.html"><strong>mmgenome2</strong></a></p>
+</div>
+</div>
+<p>Para tomar en consideración:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ya que tenemos los <em>bins</em> refinados y desreplicados opcionalmente podrías reensamblarlos. La manera sería mapear las lecturas de toda la muestra a los <em>bins</em> finales y con las lecturas mapeadas y el <em>bin</em> generar un ensamble genómico para cada uno. Con esta aproximación se genera un MAG más pulido y la contaminación se reduce.</p>
+<p>Aunque en muchos reportes verás que los autores reensamblan sus MAGs, en otros no lo hacen y no hacerlo no está mal, hacerlo mejora la calidad.</p>
+</div>
+</div>
+<p>Ahora te toca a tí</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
