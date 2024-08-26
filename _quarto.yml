@@ -29,7 +29,7 @@ website:
       - href: Recursos_extra.qmd
         text: Recursos extra
       - href: Creditos.qmd
-        text: Créditos
+        text: Creditos
 
 
 format:
