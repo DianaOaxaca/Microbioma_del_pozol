@@ -27,7 +27,7 @@ website:
       - href: Amplicones16S.qmd
         text: 05.Amplicones16S
       - href: Recursos_extra.qmd
-        text: Recursos extra
+        text: Recursos_extra
       - href: Creditos.qmd
         text: Creditos
 

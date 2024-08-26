@@ -17,18 +17,20 @@ En este taller introductorio aprenderemos a reconstruir genomas a partir de meta
 | 9:50 - 10:00  | Descanso                  |
 | 10:00 - 12:15 | Reconstrucción de genomas |
 | 12:15 - 12:30 | Descanso                  |
-| 12:30 - 13:30 | Ejercicio por equipo      |
+| 12:30 - 13:30 | Desreplicación            |
 | 13:30 - 14:00 | Discusión de resultados   |
 | 14:00 - 15:30 | Comida                    |
-| 15:30 - 16:00 | Dereplicación             |
-| 16:00 - 17:00 | Clasificación taxonómica  |
+| 15:30 - 16:00 | Ejercicio por equipo      |
+| 16:00 - 17:00 | Discusión de resultados   |
 
 **Día 4**
 
 | Hora          | Tema                                                    |
 |---------------|---------------------------------------------------------|
-| 9:00 - 10:00  | Predicción génica                                       |
-| 10:00 - 10:30 | Plática sobre el microbioma del chinicuil               |
+| 9:00 - 10:00  | Clasificación taxonómica                                |
+| 10:00 - 10:45 | Predicción génica                                       |
+| 10:45 - 11:00 | Descanso                                                |
+| 11:00 - 11:30 | Plática sobre el microbioma del chinicuil               |
 | 10:30 - 10:45 | Descanso                                                |
 | 10:45 - 12:00 | Rbims                                                   |
 | 12:00 - 12:15 | Descanso                                                |
@@ -39,7 +41,7 @@ En este taller introductorio aprenderemos a reconstruir genomas a partir de meta
 **Día 5**
 
 | Hora          | Tema                                                      |
-|---------------|-----------------------------------------------------------|
+|-----------------|-------------------------------------------------------|
 | 9:00 - 10:00  | Introducción al análisis de amplicones                    |
 | 10:00 - 10:30 | Introducción a QIIME2                                     |
 | 10:30 - 10:45 | Descanso                                                  |
