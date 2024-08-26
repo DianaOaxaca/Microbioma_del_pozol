@@ -2,11 +2,25 @@
 title: "Microbioma_del_pozol"
 ---
 
-## Taller introductorio al análisis de metagenomas centrado en genomas y análisis de amplicones del gene 16S ARNr.
+**Taller de Análisis de Metagenomas, Reconstrucción de Genomas y Análisis de Amplicones.**
 
-En este taller introductorio aprenderemos a reconstruir genomas a partir de metagenomas (**MAGs**), a clasificar los MAGs taxonómicamente y a predecir sus genes e inferir su metabolismo. Además, abordaremos un poco sobre el análisis de amplicones del gene 16S ARNr.
+En este taller introductorio aprenderemos a organizar un proyecto, analizar y visualizar datos metagenómicos; reconstruir genomas a partir de metagenomas (**MAGs**), a clasificar los MAGs taxonómicamente y a predecir sus genes e inferir su metabolismo. Además, abordaremos un poco sobre el análisis de amplicones del gene 16S ARNr.
+
+------------------------------------------------------------------------
 
 ## Temario
+
+Los días 1 y 2 serán de introducción a bash, R y metagenómica. Se seguirá la lección de metagenómica de [Software Carpentry](https://carpentries-lab.github.io/metagenomics-workshop/) que cubre los siguientes puntos:
+
+-   Organización de un proyecto metagenómico: [link](https://carpentries-incubator.github.io/organization-metagenomics/)
+
+-   Introducción a la línea de comandos: [link](https://carpentries-incubator.github.io/shell-metagenomics/)
+
+-   Introducción a R: [link](https://carpentries-incubator.github.io/introduction-to-R-for-metagenomics/)
+
+-   Procesamiento y visualización de datos metagenómicos: [link](https://carpentries-incubator.github.io/metagenomics/)
+
+Los días 3 y 4 Nos enfocaremos en la reconstrucción de MAGs y su inferencia taxonómica y funcional. El día 5 abordaremos el análisis de amplicones. El material para los días 3-5 se encuentra en esta página.
 
 **Día 3**
 
@@ -41,7 +55,7 @@ En este taller introductorio aprenderemos a reconstruir genomas a partir de meta
 **Día 5**
 
 | Hora          | Tema                                                      |
-|-----------------|-------------------------------------------------------|
+|------------------|------------------------------------------------------|
 | 9:00 - 10:00  | Introducción al análisis de amplicones                    |
 | 10:00 - 10:30 | Introducción a QIIME2                                     |
 | 10:30 - 10:45 | Descanso                                                  |
