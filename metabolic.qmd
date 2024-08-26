@@ -29,15 +29,7 @@ mkdir -p results/11.prokka
 Para correrlo, podemos hacer un ciclo que nos permita anotar todos los *bins.*
 
 ``` bash
-for FASTA in $(ls results/10.gtdbtk/bins/); do
-    LOCUSTAG=$(basename $FASTA .fasta)
-    prokka --locustag "${LOCUSTAG}_Scaffold" \
-           --prefix $LOCUSTAG \
-           --addgenes \
-           --addmrna \
-           --cpus 4 \
-           --outdir "results/11.prokka/$LOCUSTAG" \
-           "results/10.gtdbtk/bins/$FASTA"
+for FASTA in $(ls results/10.gtdbtk/bins/); do LOCUSTAG=$(basename $FASTA .fasta); prokka --locustag "${LOCUSTAG}_Scaffold --prefix $LOCUSTAG --addgenes --addmrn --cpus 4 --outdir "results/11.prokka/$LOCUSTAG" "results/10.gtdbtk/bins/$FASTA" ;
 done
 ```
 
@@ -110,26 +102,26 @@ library(tidyr)
 library(rbims)
 library(readxl)
 
-setwd("/home/alumno1/taller_metagenomica_pozol/")
+#setwd("/home/alumnoX/taller_metagenomica_pozol/")
 
-#A continuación, leemos los resultados de KEGG y los mapeamos con la base de datos de KEGG:
-
+#A continuación, leemos los resultados de KEGG 
 pozol_table <- read_ko(data_kofam = "results/12.kofam/") 
 
+#y los mapeamos con la base de datos de KEGG:
 pozol_mapp <- mapping_ko(pozol_table)
 
-#Nos centraremos en las vías metabólicas relacionadas con la obtención de energía:
+#Nos centraremos en las vías metabólicas relacionadas con la biosintesis de aminoacidos y vitaminas:
 
-Overview <- c("Central Metabolism", "Carbon Fixation", "Nitrogen Metabolism", "Sulfur Metabolism", "Fermentation", "Methane Metabolism")
-Energy_metabolisms_pozol <- pozol_mapp %>%
-  drop_na(Cycle) %>%
-  get_subset_pathway(rbims_pathway, Overview) 
+Overview <- c("Biosynthesis of amino acids", "Vitamin B6 metabolism")
+Aminoacids_metabolism_pozol <- pozol_mapp %>%
+  drop_na(Module_description) %>%
+  get_subset_pathway(Pathway_description, Overview) 
 
 #Visualizamos los datos con un gráfico de burbujas:
 
-plot_bubble(tibble_ko = Energy_metabolisms_pozol,
+plot_bubble(tibble_ko = Aminoacids_metabolism_pozol,
             x_axis = Bin_name, 
-            y_axis = Pathway_cycle,
+            y_axis = Pathway_description,
             analysis = "KEGG",
             calc = "Percentage",
             range_size = c(1, 10),
@@ -138,17 +130,17 @@ plot_bubble(tibble_ko = Energy_metabolisms_pozol,
 
 #Añadiremos metadatos, como la taxonomía:
 
-Metadatos <- read_delim("10.gtdbtk/Metadatos.txt", delim = "\t")
+Metadatos <- read_delim("results/10.gtdbtk/Metadatos.txt", delim = "\t")
 
 #Y generaremos un gráfico de burbujas con metadatos:
 
-plot_bubble(tibble_ko = Energy_metabolisms_pozol,
+plot_bubble(tibble_ko = Aminoacids_metabolism_pozol,
             x_axis = Bin_name, 
-            y_axis = Pathway_cycle,
+            y_axis = Pathway_description,
             analysis = "KEGG",
             data_experiment = Metadatos,
             calc = "Percentage",
-            color_character = Class,
+            color_character = Family,
             range_size = c(1, 10),
             y_labs = FALSE,
             x_labs = FALSE) 
@@ -172,22 +164,21 @@ plot_heatmap(tibble_ko = Secretion_system_pozol,
 plot_heatmap(tibble_ko = Secretion_system_pozol, 
              y_axis = Genes,
              data_experiment = Metadatos,
-             order_x = Phylum,
+             order_x = Family,
              analysis = "KEGG",
              calc = "Binary")
+
 plot_heatmap(tibble_ko = Secretion_system_pozol, 
              y_axis = Genes,
              data_experiment = Metadatos,
              order_y = Pathway_cycle,
-             order_x = Phylum,
+             order_x = Family,
              analysis = "KEGG",
              calc = "Binary")
 ```
 
-Extras???
+![](Figures/RBiMs_heatmap.png){fig-align="center" width="962"}
 
 ### Antismash
 
-<https://carpentries-incubator.github.io/genome-mining/02-antismash/index.html>
-
-<https://carpentries-incubator.github.io/genome-mining/03-antiSMASHdb-MiBiG/index.html>
+Adicionalmente podrías anotar el metabolismo secundario de los *bins* siguiendo el flujo de análisis propuestos en la lección de [Minería Genómica](https://carpentries-incubator.github.io/genome-mining/02-antismash/index.html) de Software Carpentry.

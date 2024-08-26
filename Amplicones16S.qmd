@@ -22,7 +22,7 @@ En este taller vamos a usar Qiime2 con DADA2 para inferir las ASVs
 
 **Qiime2** (Quantitative Insights Into Microbial Ecology) es un *pipeline* desarrollado para el análisis de metataxonomía ([Bolyen et al., 2019](https://www.nature.com/articles/s41587-019-0209-9)). Contiene herramientas para limpiar secuencias, agrupar, asignar taxonomía, reconstruir filogenias, inferir métricas de diversidad, abundancia diferencial, etc. Es de código abierto, posee una [interfaz gráfica](https://view.qiime2.org/) amigable, [mucha documentación](https://docs.qiime2.org/2022.11/plugins/available/diversity/), [tutoriales](https://docs.qiime2.org/2023.7/tutorials/) y [foros de ayuda](https://forum.qiime2.org/).
 
-![](Figures/qiime2_wf.png){fig-align="center" width="1036"}
+![](Figures/qiime2_wf.png){width="1036"}
 
 Y ahora si
 
@@ -64,9 +64,12 @@ Ahora que tenemos los fastq sin adaptadores vamos a importarlos a QIIME2, para e
 bash src/create_manifest.sh
 ```
 
-El contenido del script \`src/create_manifest.sh\` :
+El contenido del script `src/create_manifest.sh` :
 
-``` {.bash collapse="true" title="create_manifest.sh:"}
+::: {.callout-note collapse="true" title="create_manifest.sh:"}
+## src/create_manifest.sh
+
+``` {.bash collapse="true"}
 #!/usr/bin/bash
 #Create manifest file
 
@@ -85,6 +88,7 @@ for sample in $id; do
         echo -e $source","$path"/"$r2 >> ../../data/manifest.csv
 done
 ```
+:::
 
 ### Importar los datos
 
@@ -138,7 +142,7 @@ Toma en cuenta lo siguiente:
 Para hacer el *denoising* y agrupamiento con DADA2 ejecutemos lo siguiente:
 
 ``` bash
-qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza  --p-trunc-len-f 260 --p-trunc-len-r 200  --o-representative-sequences results/02.qiime/03.rep-seqs_v1.qza --o-table results/02.qiime/03.feature-table_v1.qza --o-denoising-stats results/02.qiime/03.denoising-stats_v1.qza --p-n-threads 10
+qiime dada2 denoise-paired --i-demultiplexed-seqs results/02.qiime/01.demux.qza  --p-trunc-len-f 280 --p-trunc-len-r 250  --o-representative-sequences results/02.qiime/03.rep-seqs_v1.qza --o-table results/02.qiime/03.feature-table_v1.qza --o-denoising-stats results/02.qiime/03.denoising-stats_v1.qza --p-n-threads 10
 ```
 
 Veamos los estadísticos de lo que se pudo agrupar.
@@ -205,113 +209,121 @@ Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qii
 
 Opcionalmente te dejamos un [link con scripts para hacer filtros subsecuentes](https://github.com/landalab0/AmpliconesManglarInterior/blob/main/v0.2/src/06.filters.sh), como eliminar secuencias que son potenciales artefactos, remover cloroplastos o mitocondria.
 
+Exportemos a formato legible por R,
+
+``` bash
+qiime tools export --input-path results/02.qiime/03.feature-table_v1.qza --output-path results/02.qiime/exported-feature-table
+```
+
+``` bash
+qiime tools export --input-path results/02.qiime/taxonomy.qza --output-path results/02.qiime/exported-taxonomy
+```
+
 ### Visualicemos en R
 
-Y ahora si viene lo divertido, vamos a visualizar nuestros resultados ...
+Y ahora si viene lo divertido, vamos a visaulizar nuestros resultados ...
 
-Abre tu editor de Scripts en Rstudio
+Abre tu editor en Rstudio
 
-::: callout-caution
-## Revisa tu ubicación
-
-Asegúrate de estar dentro del directorio `taller_amplicones_pozol`
+Importemos los datos de qiime a R como un objeto Phyloseq
 
 ``` r
-setwd("/home/alumnoX/taller_metagenomica_pozol")
-```
-:::
+#cargar librerias e instalar si no esta
 
-``` r
-#cargar librerias
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(version = "3.19")
+
+library(BiocManager)
+
+BiocManager::install(c("IRanges", "S4Arrays", "SparseArray", "GenomicRanges", "SummarizedExperiment", "SingleCellExperiment", "TreeSummarizedExperiment"))
+
+devtools::install_github("jbisanz/qiime2R")
+
+
+library(devtools)
+devtools::install_github("jbisanz/qiime2R")
+
+
 library(qiime2R)
 library(phyloseq)
 
-# crear objeto phyloseq
+
+
+
+#crear objeto phyloseq
 ps <- qza_to_phyloseq(
   features = "results/02.qiime/03.feature-table_v1.qza",
   taxonomy = "results/02.qiime/taxonomy.qza",
   metadata = "data/metadata.tsv")
+```
 
-# veamos el objeto phyloseq
-ps
+Obtengamos información del objeto phyloseq
 
-
-#obtengamos un resumen de los datos
+``` r
 library(devtools)
 library(microbiome)
 
+#check data
 microbiome::summarize_phyloseq(ps)
 
-#Remueve singletones
-ps2 <- filter_taxa(ps, function(x) sum(x) > 1, TRUE)
-
-# Revisemos el objeto despues de filtrar
+#Delete singletons
+ps2 <- filter_taxa(ps, function(x) sum(x) > 2, TRUE)
 ps2
 
+#check
 microbiome::summarize_phyloseq(ps2)
+```
 
-# Curvas de muestreo
+Hagamos un chequeo rápido del esfuerzo de muestreo
+
+``` r
 library(vegan)
 mat <- as(t(otu_table(ps2)), "matrix")
 raremax <- min(rowSums(mat))
 
 system.time(rarecurve(mat, step = 1000, sample = raremax, 
-                      col = "purple4", label = TRUE))
+                                                  col = "purple4", label = TRUE))
+```
 
-# Abundancias
+Veamos el objeto phyloseq en un objeto Ampvis
+
+``` r
 library(ampvis2)
 library(dplyr)
 
-# Creamos un objeto Ampvis
-# extraer la otu_table
 otu_table_ampvis <- data.frame(OTU = rownames(phyloseq::otu_table(ps2)@.Data),
                                phyloseq::otu_table(ps2)@.Data,
                                phyloseq::tax_table(ps2)@.Data,
                                check.names = FALSE)
-# extraer el metadata
 meta_data_ampvis <- data.frame(phyloseq::sample_data(ps2),
-                               check.names = FALSE)
-
-# change index to sample-id
-meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "sample-id")
-
+                               check.names = FALSE
+)
+# change index to SampleID
+meta_data_ampvis <- meta_data_ampvis %>% rownames_to_column(var = "SampleID")
 # finalmente generamos el objeto ampvis
 av2 <- amp_load(otu_table_ampvis, meta_data_ampvis)
+```
 
+Visualicemos las abundancias en un heatmap
+
+``` r
 #heatmap
 Genus_av2_abundance_plot <- amp_heatmap(av2,
-                                        plot_values = TRUE,
-                                        plot_values_size = 4,
-                                        tax_show = 25,
-                                        tax_aggregate = "Genus",
-                                        tax_add = c("Phylum"))
+            facet_by = "sample-id",
+            plot_values = TRUE,
+            plot_values_size = 4,
+            tax_show = 20,
+            tax_aggregate = "Genus",
+            tax_add = c("Phylum"),
+            plot_legendbreaks = c(1, 5, 5))
 Genus_av2_abundance_plot
-
-# Diversidad alfa
-
-alpha <- amp_alphadiv(
-  av2,
-  measure = c("uniqueotus","shannon", "simpson"),
-  richness = TRUE,
-  #rarefy = 20000,
-  plot  = TRUE,
-  plot_scatter = TRUE,
-  plot_group_by = "fermentation_time"
-)
-
-alpha
-
-# Ordenación
-
-pcoa <- amp_ordinate(
-  av2,
-  #filter_species = 0.01,
-  type = "pcoa",
-  distmeasure = "bray",
-  sample_color_by = "fermentation_time",
-  sample_colorframe = TRUE,
-  sample_colorframe_label = "fermentation_time"
-)
-
-pcoa
 ```
+
+Diversidad alfa
+
+Diversidad beta
+
+### Recursos externos
+
+Si quieres profundizar en el análisis de amplicones te recomendamos visitar el canal de youtube y/o los cursos y asesorias de [microbioma-lab](https://microbioma-lab.com/).

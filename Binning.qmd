@@ -441,6 +441,8 @@ Vamos a desactivar el ambiente de dRep
 conda deactivate
 ```
 
+------------------------------------------------------------------------
+
 ::: callout-important
 ## Para reflexionar
 
@@ -460,6 +462,8 @@ Ya que tenemos los *bins* refinados y desreplicados opcionalmente podrías reens
 
 Aunque en muchos reportes verás que los autores reensamblan sus MAGs, en otros no lo hacen y no hacerlo no está mal, hacerlo mejora la calidad.
 :::
+
+------------------------------------------------------------------------
 
 Ahora te toca a tí
 

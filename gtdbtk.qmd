@@ -41,7 +41,7 @@ conda deactivate
 ::: callout-caution
 ## Resultado de GTDB-Tk
 
-Si gtdbtk está tomando mucho tiempo puedes parar el proceso con `ctrl + C` en tu teclado. El resultado final se encuentra en el directorio y archo: `results/10.gtdbtk/gtdbtk.bac120.summary.tsv` que se copió desde el inicio.
+Si gtdbtk está tomando mucho tiempo puedes parar el proceso con `ctrl + C` en tu teclado. El resultado final se encuentra en el directorio y archivo: `results/10.gtdbtk/gtdbtk.bac120.summary.tsv` que se copió desde el inicio.
 :::
 
 Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.

@@ -30,11 +30,15 @@ Algunos puntos importantes que conocemos son:
 
 Una importante industria alimenticia los contacta como **expertos en ecología microbiana** y les pide ayuda para descubrir los siguientes puntos:
 
+<FONT COLOR="darkblue">
+
 -   ¿Qué actores microbianos están presentes durante el proceso de fermentación?
 
 -   ¿Cómo ocurre la bioconversión del maíz durante la fermentación, quién participa y cómo lo hace? ¿Qué funciones metabólicas están ocurriendo?
 
 -   ¿Cambia la comunidad microbiana a lo largo del proceso?
+
+</FONT>
 
 La empresa secuenció cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb.
 
