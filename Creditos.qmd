@@ -4,7 +4,7 @@ title: "Créditos"
 
 ![](Figures/CONAHCYT.png){fig-align="left" width="186"}
 
-El contenido de esta página fue creado como parte del proyecto `Ciencia de Frontera CBF2023-2024-1251` liderado por la **Dra. Mirna Rosas Vázquez Landa.**
+El contenido de esta página fue creado como parte del proyecto `Ciencia de Frontera CBF2023-2024-1251` liderado por la **Dra. Mirna Rosas Vázquez Landa** y la **Dra. Karina Verdel Aranda.**
 
 **Autoras**: Diana Hernández Oaxaca [\@DianaOaxaca](https://github.com/DianaOaxaca) y Mirna Rosas Vázquez Landa [\@MirnaVazquez](https://github.com/mirnavazquez) .
 
