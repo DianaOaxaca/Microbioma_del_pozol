@@ -1,6 +1,5 @@
 ---
 title: "El pozol"
-image: Figures/01.Pozol_fermentation.png
 about:
   template: marquee
   links:
@@ -10,7 +9,9 @@ about:
 bibliography: references.bib
 ---
 
-**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado, de importancia económica y cultural, se consume desde tiempos prehispánicos y se ha estudiado desde los años 70s.
+![](Figures/Pozolhistoria.png){fig-align="center"}
+
+**El pozol** es un alimento ácido, fermentado a partir de maíz nixtamalizado, de importancia económica y cultural, se consume desde tiempos prehispánicos y se ha estudiado desde los años 50s.
 
 Algunos puntos importantes que conocemos son:
 
@@ -40,7 +41,9 @@ Una importante industria alimenticia los contacta como **expertos en ecología m
 
 </FONT>
 
-La empresa secuenció cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb.
+La empresa secuenció cuatro puntos de fermentación de muestras que se obtuvieron en un mercado de Campeche. Las muestras se secuenciaron con Illumina NextSeq500 con lecturas pareadas de 75 pb. Los datos están públicos bajo el Bioproject: [PRJNA648868](https://www.ebi.ac.uk/ena/browser/view/PRJNA648868)
+
+![](Figures/01.Pozol_fermentation.png)
 
 ------------------------------------------------------------------------
 

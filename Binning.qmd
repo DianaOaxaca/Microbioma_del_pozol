@@ -2,12 +2,12 @@
 title: "Genomas a partir de metagenomas"
 ---
 
-La metagenómica hace referencia a todo el ADN de los organismos que se encuentran en un ambiente. La secuenciación de este material genético produce lecturas que pueden ensamblarse para conocer la diversidad microbiana y sus funciones.
+La metagenómica hace referencia al estudios de todo el ADN de los organismos que se encuentran en un ambiente. La secuenciación de este material genético produce lecturas que pueden ensamblarse para conocer la diversidad microbiana y sus funciones.
 
 Típicamente los metagenomas pueden estudiarse mediante dos aproximaciones:
 
 1.  La clasificación taxonómica de contigs o lecturas y la inferencia metabólica de los contigs.
-2.  La reconstrucción de genomasa a partir de metagenomas (MAGs), clasificación taxonómica y la inferencia metabólica de los MAGs.
+2.  La reconstrucción de genomas a a partir de metagenomas (MAGs), clasificación taxonómica y la inferencia metabólica de los MAGs.
 
 En este apartado nos enfocaremos en la segunda aproximación. Los MAGs se reconstruyen a partir de un ensamble metagenómico, los contigs de dicho ensamble se agrupan mediante la información de cobertura y frecuencia de tetranucleótidos. Esta agrupación puede generar errores, por lo que es indispensable evaluar la calidad de los MAGs mediante la completitud y redundancia de genes de copia única ([MerenLab y col.](https://anvio.org/vocabulary/))
 
@@ -65,7 +65,7 @@ Antes de comenzar, reúnete con tu equipo y juntos
 
 -   revisen el contenido de los directorios `02.ensambles` y `03.profundidad.txt`
 
--   Discutan y en una diapositiva expliquen el flujo que se siguió para obtener los archivos que estan esos directorios
+-   Discutan y en una diapositiva expliquen el flujo que se siguió para obtener los archivos que están en esos directorios
 
 La liga de drive para ir trabajando durante el taller es esta: <https://drive.google.com/drive/folders/1iKfhMz_JdfImmsCmkPg10r-NC-nrzhQ4?usp=sharing>
 :::
@@ -167,7 +167,7 @@ run_MaxBin.pl -thread 4 -min_contig_length 1500 -contig results/02.ensambles/48h
 ::: {.callout-important collapse="true" title="Ejercicio:"}
 1\. ¿Cuántos bins se formaron?
 
-2\. ¿Qué porcentaje de completitud y contaminación tienen??
+2\. ¿Qué porcentaje de completitud tienen??
 
 ::: {.callout-tip collapse="true" title="Solución"}
 1.  `ls results/05.maxbin/*.fasta | wc -l`
@@ -324,6 +324,8 @@ library(networkD3)
 
 # revisa tu ubicación
 getwd()
+
+# OJO
 setwd("/home/ELALUMNOQUEERES/taller_metagenomica_pozol")
 
 # Cargar los datos
@@ -446,7 +448,7 @@ conda deactivate
 ::: callout-important
 ## Para reflexionar
 
-Qué harías si antes de desreplicar tienes un bin que tiene 98 % de completitud y 11 % de contaminació. dRep en automático lo descartaría.
+Qué harías si antes de desreplicar tienes un bin que tiene 98 % de completitud y 11 % de contaminación?. dRep en automático lo descartaría.
 
 Propondrías alguna manera para quedarte con este bin y curarlo para reducir su contaminación?
 
@@ -458,9 +460,9 @@ Para tomar en consideración:
 ::: callout-tip
 ## Tip
 
-Ya que tenemos los *bins* refinados y desreplicados opcionalmente podrías reensamblarlos. La manera sería mapear las lecturas de toda la muestra a los *bins* finales y con las lecturas mapeadas y el *bin* generar un ensamble genómico para cada uno. Con esta aproximación se genera un MAG más pulido y la contaminación se reduce.
+Ya que tenemos los *bins* refinados y desreplicados opcionalmente podrías reensamblarlos. La manera sería mapear las lecturas de toda la muestra a los *bins* finales y con las lecturas mapeadas y el *bin,* generar un ensamble genómico para cada uno. Con esta aproximación se genera un MAG más pulido y la contaminación se reduce.
 
-Aunque en muchos reportes verás que los autores reensamblan sus MAGs, en otros no lo hacen y no hacerlo no está mal, hacerlo mejora la calidad.
+Aunque en muchos reportes verás que los autores reensamblan sus MAGs, en otros no lo hacen y no hacerlo no está mal, pero hacerlo mejora la calidad.
 :::
 
 ------------------------------------------------------------------------
