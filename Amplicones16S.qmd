@@ -31,6 +31,8 @@ Sitúate en el directorio de trabajo del taller de amplicones
 ``` bash
 # ve a tu $HOME
 cd
+# copia el siguiente directorio:
+cp -r /home/alumno1/taller_amplicones_pozol .
 # entra al directorio de amplicones
 cd taller_amplicones_pozol
 ```
@@ -206,16 +208,6 @@ qiime feature-table summarize \
 ```
 
 Descarga los archivos `qzv` en tu computadora y visualízalos en la página [Qiime2view](https://view.qiime2.org/)
-
-Exportemos a formato legible por R,
-
-``` bash
-qiime tools export --input-path results/02.qiime/03.feature-table_v1.qza --output-path results/02.qiime/exported-feature-table
-```
-
-``` bash
-qiime tools export --input-path results/02.qiime/taxonomy.qza --output-path results/02.qiime/exported-taxonomy
-```
 
 ### Visualicemos en R
 
