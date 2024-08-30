@@ -200,6 +200,18 @@ qiime feature-classifier classify-sklearn \
   --o-classification results/02.qiime/taxonomy.qza --p-n-jobs 10
 ```
 
+::: callout-warning
+## Si está tardando mucho
+
+Puedes cancelar con `ctrl + C` y copiar los resultados para verlos:
+
+Recuerda: debes estar parado dentro del directorio taller_amplicones_pozol
+
+``` bash
+cp /home/alumno1/respaldopozol/prueba_amplicones/results/02.qiime/taxonomy.qza results/02.qiime/
+```
+:::
+
 Y podemos generar archivos para visualizar los resultados
 
 ``` bash
