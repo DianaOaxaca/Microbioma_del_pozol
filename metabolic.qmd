@@ -29,7 +29,7 @@ mkdir -p results/11.prokka
 Para correrlo, podemos hacer un ciclo que nos permita anotar todos los *bins.*
 
 ``` bash
-for FASTA in $(ls results/10.gtdbtk/bins/); do LOCUSTAG=$(basename $FASTA .fasta); prokka --locustag "${LOCUSTAG}_Scaffold --prefix $LOCUSTAG --addgenes --addmrn --cpus 4 --outdir "results/11.prokka/$LOCUSTAG" "results/10.gtdbtk/bins/$FASTA" ;
+for FASTA in $(ls results/10.gtdbtk/bins/); do LOCUSTAG=$(basename $FASTA .fasta); prokka --locustag "${LOCUSTAG}_Scaffold"  --prefix $LOCUSTAG --addgenes --addmrn --cpus 4 --outdir "results/11.prokka/$LOCUSTAG" "results/10.gtdbtk/bins/$FASTA" ;
 done
 ```
 
@@ -175,6 +175,13 @@ plot_heatmap(tibble_ko = Secretion_system_pozol,
              order_x = Family,
              analysis = "KEGG",
              calc = "Binary")
+
+# Explorar
+colnames(pozol_mapp) 
+
+pozol_mapp %>%
+  select(Cycle, Pathway_cycle, Pathway_description) %>%
+  distinct()
 ```
 
 ![](Figures/RBiMs_heatmap.png){fig-align="center" width="962"}

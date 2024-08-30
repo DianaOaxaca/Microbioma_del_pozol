@@ -41,6 +41,12 @@ cd taller_amplicones_pozol
 
 Aunque dentro de qiime se puede hacer la limpieza de los adaptadores, también podemos hacerlo por fuera con cutadapt.
 
+Primero activa tu ambiente
+
+``` bash
+conda activate qiime2-amplicon-2024.2
+```
+
 Vamos a crear el directorio de resultados de cutadapt
 
 ``` bash

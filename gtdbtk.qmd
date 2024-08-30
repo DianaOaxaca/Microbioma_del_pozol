@@ -6,7 +6,7 @@ title: "Asignación taxonómica"
 
 GTDB-Tk es una herramienta que asigna taxonomía a genomas utilizando la base de datos [GTDB](https://gtdb.ecogenomic.org/) (Genome Taxonomy Database). Basado en árboles filogenéticos y medidas de ANI (Average Nucleotide Identity), GTDB-Tk clasifica genomas bacterianos y arqueanos, proporciona una taxonomía coherente y actualizada. Se utiliza mucho en el análisis de genomas y metagenomas.
 
-![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="444"}
+![GTDB-tk Workflow](Figures/GTDB-tk_worflow.png){fig-align="center" width="944"}
 
 Recordemos que ya tenemos un set de *bins* refinados y desreplicados. Ahora vamos a asignarles identidad taxonómica, para ello vamos a correr GTDB-tk
 
@@ -49,26 +49,28 @@ Después de ejecutar GTDB-tk, continuaremos en R para visualizar los datos.
 ``` r
 library(tidyverse)
 library(ggplot2)
-
-GTDBK <- read.table("results/10.gtdbtk/gtdbtk.bac120.summary.tsv", 
-  sep = "\t", header = TRUE, na.strings = "", stringsAsFactors = FALSE) %>%
+# Leer la tabla ------------------------------------------------------------####
+GTDBtk <- read.table("gtdbtk.bac120.summary.tsv", 
+                    sep = "\t", header = TRUE, na.strings = "", 
+                    stringsAsFactors = FALSE) %>%
   as_tibble()
 
-#El archivo contiene información sobre la clasificación taxonómica de los bins.
-#Continuamos limpiando y transformando los datos:
+# Transformar datos --------------------------------------------------------####
 
-pozol_gtdbtk <- GTDBK %>%
+pozol_gtdbtk <- GTDBtk %>%
   select(user_genome, classification) %>%
-  separate(classification, c("Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), sep = ";") %>%
+  separate(classification, c(
+    "Domain", "Phylum", "Class", "Order", "Family", "Genus", "Species"), 
+    sep = ";") %>%
   rename(Bin_name = user_genome) %>%
   unite(Bin_name_2, c("Bin_name", "Phylum"), remove = FALSE) %>%
   select(Bin_name, Domain, Phylum, Class, Order, Family, Genus, Species)
 
-#Guardamos los datos en un archivo de metadatos:
-write.table(pozol_gtdbtk, file = "results/10.gtdbtk/Metadatos.txt", sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
+# Guardamos los datos en un archivo de metadatos ---------------------------####
+write.table(pozol_gtdbtk, file = "Metadatos.txt", 
+            sep = "\t", quote = FALSE, row.names = FALSE, col.names = TRUE)
 
-#Visualización de Datos Creamos un gráfico de barras  que muestra la distribución taxonómica de los bins:
-
+# Visualización de Datos ---------------------------------------------------####
 GTDBtk_barplot <- pozol_gtdbtk %>%
   count(Phylum, Genus) %>%
   rename(Number_of_MAGs = n) %>%
